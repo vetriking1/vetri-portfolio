@@ -11,6 +11,8 @@ interface Project {
   categories: Category[];
   image?: string;
   gradient: string;
+  githubUrl?: string;
+  liveUrl?: string;
 }
 
 const projects: Project[] = [
@@ -21,6 +23,8 @@ const projects: Project[] = [
     categories: ["AI & CV"],
     image: "/projects-imgs/FaceFind.png",
     gradient: "from-primary to-secondary",
+    githubUrl: "https://github.com/yourusername/face-find",
+    liveUrl: "https://face-find.vercel.app",
   },
   {
     title: "Dog Classifier",
@@ -29,6 +33,7 @@ const projects: Project[] = [
     categories: ["AI & CV", "ML & Data Science"],
     image: "/projects-imgs/Dog_classifier.png",
     gradient: "from-secondary to-accent",
+    githubUrl: "https://github.com/yourusername/dog-classifier",
   },
   {
     title: "Digit Classifier",
@@ -37,6 +42,7 @@ const projects: Project[] = [
     categories: ["AI & CV", "ML & Data Science"],
     image: "/projects-imgs/digit_classification.png",
     gradient: "from-accent to-tertiary",
+    githubUrl: "https://github.com/yourusername/digit-classifier",
   },
   {
     title: "Hand-Controlled Games",
@@ -45,6 +51,7 @@ const projects: Project[] = [
     categories: ["AI & CV", "Games"],
     image: "/projects-imgs/game_controlled_hand.png",
     gradient: "from-tertiary to-primary",
+    githubUrl: "https://github.com/yourusername/hand-controlled-games",
   },
   {
     title: "Traffic Management System",
@@ -53,6 +60,7 @@ const projects: Project[] = [
     categories: ["AI & CV", "Specialized"],
     image: "/projects-imgs/traffic_managment_system.png",
     gradient: "from-primary to-accent",
+    githubUrl: "https://github.com/yourusername/traffic-management-system",
   },
   {
     title: "Hand Shortcuts Control",
@@ -61,6 +69,7 @@ const projects: Project[] = [
     categories: ["AI & CV", "Specialized"],
     image: "/projects-imgs/shortcut_hand.png",
     gradient: "from-secondary to-tertiary",
+    githubUrl: "https://github.com/yourusername/hand-shortcuts-control",
   },
   {
     title: "Library Web System",
@@ -69,6 +78,8 @@ const projects: Project[] = [
     categories: ["Full-Stack"],
     image: "/projects-imgs/library.png",
     gradient: "from-primary to-secondary",
+    githubUrl: "https://github.com/yourusername/library-web-system",
+    liveUrl: "https://library-system.vercel.app",
   },
   {
     title: "Hospital Management System",
@@ -77,6 +88,7 @@ const projects: Project[] = [
     categories: ["Full-Stack"],
     image: "/projects-imgs/hospital_managment.png",
     gradient: "from-accent to-primary",
+    githubUrl: "https://github.com/yourusername/hospital-management-system",
   },
   {
     title: "Sustainable Packaging Solutions",
@@ -85,6 +97,7 @@ const projects: Project[] = [
     categories: ["Full-Stack"],
     image: "/projects-imgs/sustaiable_packaging.png",
     gradient: "from-secondary to-accent",
+    githubUrl: "https://github.com/yourusername/sustainable-packaging-solutions",
   },
   {
     title: "easy task - Task Management",
@@ -93,6 +106,8 @@ const projects: Project[] = [
     categories: ["Full-Stack"],
     image: "/projects-imgs/easytask.png",
     gradient: "from-tertiary to-secondary",
+    githubUrl: "https://github.com/yourusername/easy-task",
+    liveUrl: "https://easytask.app",
   },
   {
     title: "Mark Report Generator",
@@ -101,6 +116,7 @@ const projects: Project[] = [
     categories: ["Full-Stack"],
     image: "/projects-imgs/student_report_generator.png",
     gradient: "from-primary to-tertiary",
+    githubUrl: "https://github.com/vetriking1/MarkReport",
   },
   {
     title: "Thirukkural Generator",
@@ -109,6 +125,7 @@ const projects: Project[] = [
     categories: ["AI & NLP"],
     image: "/projects-imgs/thirukural_writer.png",
     gradient: "from-accent to-secondary",
+    githubUrl: "https://huggingface.co/spaces/VetriSelvan18/Thirukural",
   },
   {
     title: "SQL Agent",
@@ -117,6 +134,7 @@ const projects: Project[] = [
     categories: ["AI & NLP"],
     image: "/projects-imgs/sql_agent (2).png",
     gradient: "from-secondary to-primary",
+    githubUrl: "https://github.com/vetriking1/SQLAgent",
   },
   {
     title: "React + Langchain MCP Chatbot",
@@ -125,6 +143,7 @@ const projects: Project[] = [
     categories: ["AI & NLP", "Full-Stack"],
     image: "/projects-imgs/mcp_chat_agent.png",
     gradient: "from-tertiary to-accent",
+    githubUrl: "https://github.com/vetriking1/MCPChatBot",
   },
   {
     title: "AI MCQ Quiz App",
@@ -133,6 +152,8 @@ const projects: Project[] = [
     categories: ["AI & NLP", "Full-Stack"],
     image: "/projects-imgs/quizapp.png",
     gradient: "from-primary to-secondary",
+    githubUrl: "https://github.com/yourusername/ai-mcq-quiz-app",
+    liveUrl: "https://ai-quiz-app.vercel.app",
   },
   {
     title: "Kaggle Titanic Prediction",
@@ -140,6 +161,7 @@ const projects: Project[] = [
     tags: ["Python", "Pandas", "Scikit-learn", "Matplotlib"],
     categories: ["ML & Data Science"],
     gradient: "from-secondary to-tertiary",
+    githubUrl: "https://github.com/yourusername/kaggle-titanic-prediction",
   },
   {
     title: "Kaggle House Price Prediction",
@@ -147,6 +169,7 @@ const projects: Project[] = [
     tags: ["Python", "Pandas", "XGBoost", "Scikit-learn"],
     categories: ["ML & Data Science"],
     gradient: "from-accent to-primary",
+    githubUrl: "https://github.com/yourusername/kaggle-house-price-prediction",
   },
   {
     title: "Supermarket Data EDA",
@@ -155,6 +178,7 @@ const projects: Project[] = [
     categories: ["ML & Data Science"],
     image: "/projects-imgs/supermarket_eda.png",
     gradient: "from-tertiary to-secondary",
+    githubUrl: "https://github.com/yourusername/supermarket-data-eda",
   },
   {
     title: "Pong Game with AI",
@@ -163,6 +187,7 @@ const projects: Project[] = [
     categories: ["Games", "AI & CV"],
     image: "/projects-imgs/pong_game.png",
     gradient: "from-primary to-accent",
+    githubUrl: "https://github.com/yourusername/pong-game-ai",
   },
   {
     title: "Reaction Time Game",
@@ -171,6 +196,8 @@ const projects: Project[] = [
     categories: ["Games"],
     image: "/projects-imgs/reaction_time.png",
     gradient: "from-secondary to-primary",
+    githubUrl: "https://github.com/yourusername/reaction-time-game",
+    liveUrl: "https://reaction-time-game.vercel.app",
   },
   {
     title: "ToDo List (Rust CLI)",
@@ -179,6 +206,7 @@ const projects: Project[] = [
     categories: ["Systems"],
     image: "/projects-imgs/cli_rust_todo.png",
     gradient: "from-accent to-tertiary",
+    githubUrl: "https://github.com/yourusername/rust-todo-cli",
   },
   {
     title: "Prime Number Generator [CUDA]",
@@ -186,6 +214,7 @@ const projects: Project[] = [
     tags: ["CUDA", "Python", "C", "C++", "Rust", "Go"],
     categories: ["Systems"],
     gradient: "from-tertiary to-primary",
+    githubUrl: "https://github.com/yourusername/cuda-prime-generator",
   },
   {
     title: "Programming Language Speed Test",
@@ -194,6 +223,7 @@ const projects: Project[] = [
     categories: ["Systems"],
     image: "/projects-imgs/speed_test_languages.png",
     gradient: "from-primary to-secondary",
+    githubUrl: "https://github.com/yourusername/programming-language-speed-test",
   },
   {
     title: "Julia/Mandelbrot Set Visualization",
@@ -202,6 +232,8 @@ const projects: Project[] = [
     categories: ["Specialized"],
     image: "/projects-imgs/julia_set.jpeg",
     gradient: "from-secondary to-accent",
+    githubUrl: "https://github.com/yourusername/julia-mandelbrot-visualization",
+    liveUrl: "https://julia-mandelbrot.streamlit.app",
   },
   {
     title: "Phishing Tool",
@@ -210,6 +242,7 @@ const projects: Project[] = [
     categories: ["Specialized"],
     image: "/projects-imgs/fishing_tool.png",
     gradient: "from-accent to-primary",
+    githubUrl: "https://github.com/yourusername/phishing-tool",
   },
   {
     title: "Android Number Format Converter",
@@ -218,6 +251,7 @@ const projects: Project[] = [
     categories: ["Specialized"],
     image: "/projects-imgs/androidapp.jpg",
     gradient: "from-tertiary to-secondary",
+    githubUrl: "https://github.com/yourusername/android-number-converter",
   },
 ];
 
@@ -356,14 +390,28 @@ const ProjectsSection = () => {
 
                 {/* Action Buttons */}
                 <div className="flex gap-3">
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
-                    <ExternalLink className="w-3 h-3" />
-                    <span>View</span>
-                  </button>
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border border-border hover:border-primary transition-colors">
-                    <Github className="w-3 h-3" />
-                    <span>Code</span>
-                  </button>
+                  {project.liveUrl && (
+                    <a 
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      <span>View</span>
+                    </a>
+                  )}
+                  {project.githubUrl && (
+                    <a 
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border border-border hover:border-primary transition-colors"
+                    >
+                      <Github className="w-3 h-3" />
+                      <span>Code</span>
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>

@@ -1,34 +1,29 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { Mail, Github, Linkedin, Twitter, Send } from "lucide-react";
-import { toast } from "sonner";
+import { useRef } from "react";
+import { Mail, Github, Linkedin, Phone, MessageCircle, XIcon, Code2, Trophy } from "lucide-react";
 
 const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success("Message sent! I'll get back to you soon.");
-    setFormData({ name: "", email: "", message: "" });
+  const phoneNumber = "+919600718540";
+  const whatsappNumber = "919600718540";
+
+  const handleCall = () => {
+    window.location.href = `tel:${phoneNumber}`;
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleWhatsApp = () => {
+    window.open(`https://wa.me/${whatsappNumber}?text=Hi%20Vetri%20Selvan!%20I'd%20like%20to%20connect%20with%20you.`, "_blank");
   };
 
   const socialLinks = [
-    { icon: Mail, href: "mailto:your.email@example.com", label: "Email" },
-    { icon: Github, href: "https://github.com", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+    { icon: Mail, href: "mailto:vetriselvan2005.11.18@gmail.com", label: "Email" },
+    { icon: Github, href: "https://github.com/vetriking1", label: "GitHub" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/vetri-selvan-m-790022254/", label: "LinkedIn" },
+    { icon: Code2, href: "https://leetcode.com/u/Vetriselvan18/", label: "LeetCode" },
+    { icon: Trophy, href: "https://www.hackerrank.com/profile/vking1060", label: "HackerRank" },
+    { icon: XIcon, href: "https://x.com/VetKing0318?t=Pyfgr3nQXAiD9Z1n97ed4g&s=09", label: "X.com" },
   ];
 
   return (
@@ -54,81 +49,82 @@ const ContactSection = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* Contact Form */}
+          {/* Contact Actions */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-6"
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary outline-none transition-colors"
-                  placeholder="Your name"
-                />
+            {/* Call Me Button */}
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 border border-primary/20">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                  <Phone className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">Call Me</h3>
+                  <p className="text-muted-foreground">Let's talk directly</p>
+                </div>
               </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary outline-none transition-colors"
-                  placeholder="your.email@example.com"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary outline-none transition-colors resize-none"
-                  placeholder="Tell me about your project..."
-                />
-              </div>
-
+              <p className="text-muted-foreground mb-6">
+                Prefer a direct conversation? Give me a call and let's discuss your project or ideas.
+              </p>
               <button
-                type="submit"
+                onClick={handleCall}
                 className="w-full group relative px-8 py-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-lg font-semibold overflow-hidden transition-all hover:shadow-lg hover:shadow-primary/50"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  <Send className="w-5 h-5" />
-                  Send Message
+                <span className="relative z-10 flex items-center justify-center gap-2 text-white">
+                  <Phone className="w-5 h-5" />
+                  {phoneNumber}
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-accent via-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </button>
-            </form>
+            </div>
+
+            {/* WhatsApp Button */}
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-tertiary/10 via-primary/10 to-secondary/10 border border-tertiary/20">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-tertiary to-primary flex items-center justify-center">
+                  <MessageCircle className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">WhatsApp Me</h3>
+                  <p className="text-muted-foreground">Quick and easy messaging</p>
+                </div>
+              </div>
+              <p className="text-muted-foreground mb-6">
+                Send me a message on WhatsApp for instant communication. I'm always available to chat!
+              </p>
+              <button
+                onClick={handleWhatsApp}
+                className="w-full group relative px-8 py-4 bg-gradient-to-r from-tertiary via-primary to-secondary rounded-lg font-semibold overflow-hidden transition-all hover:shadow-lg hover:shadow-tertiary/50"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2 text-white">
+                  <MessageCircle className="w-5 h-5" />
+                  Message on WhatsApp
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-secondary via-primary to-tertiary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              </button>
+            </div>
+
+            {/* Phone Number Display */}
+            <div className="p-6 rounded-xl bg-card border border-border text-center">
+              <p className="text-sm text-muted-foreground mb-2">Direct Contact</p>
+              <p className="text-2xl font-bold gradient-text-full">{phoneNumber}</p>
+            </div>
+
+            {/* Availability Card */}
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 border border-primary/20">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-3 h-3 rounded-full bg-tertiary animate-pulse"></div>
+                <span className="text-lg font-semibold">Available for Work</span>
+              </div>
+              <p className="text-muted-foreground">
+                Currently accepting new projects and collaborations. Let's build
+                something amazing together!
+              </p>
+            </div>
           </motion.div>
 
           {/* Contact Info */}
@@ -169,18 +165,6 @@ const ContactSection = () => {
                   );
                 })}
               </div>
-            </div>
-
-            {/* Availability Card */}
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 border border-primary/20">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 rounded-full bg-tertiary animate-pulse"></div>
-                <span className="text-lg font-semibold">Available for Work</span>
-              </div>
-              <p className="text-muted-foreground">
-                Currently accepting new projects and collaborations. Let's build
-                something amazing together!
-              </p>
             </div>
           </motion.div>
         </div>

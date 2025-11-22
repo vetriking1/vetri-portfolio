@@ -1,0 +1,111 @@
+# Vetri Selvan M - AI Developer & Full-Stack Engineer
+
+## About
+Vetri Selvan M is a Computer Science Engineering student at DMI College of Engineering, Chennai, with a CGPA of 8.2. He specializes in Artificial Intelligence, Machine Learning, Computer Vision, and Full-Stack Web Development.
+
+## Key Information
+- **Name**: Vetri Selvan M
+- **Education**: BE Computer Science Engineering (2022-Present)
+- **Institution**: DMI College of Engineering, Chennai, Tamil Nadu, India
+- **CGPA**: 8.2
+- **Specialization**: AI, Machine Learning, Full-Stack Development, Computer Vision
+
+## Technical Skills
+
+### Full-Stack Development
+- Frontend: React, Next.js, Tailwind CSS, HTML, CSS, TypeScript, JavaScript
+- Backend: Node.js, Express.js, FastAPI, Flask
+- Databases: MongoDB, SQL, Supabase
+- Deployment: Vercel, Docker
+
+### AI & Machine Learning
+- Frameworks: TensorFlow, PyTorch, Scikit-learn, XGBoost
+- Tools: Ollama, Langchain, CrewAI
+- Specialties: Computer Vision, Deep Learning, NLP, Prompt Engineering
+- Vector Databases
+
+### Data Science
+- Tools: Power BI, Jupyter Notebook
+- Libraries: Pandas, NumPy, Matplotlib, Seaborn
+
+### Programming Languages
+- Python (Intermediate)
+- JavaScript/TypeScript (Intermediate)
+- Java (Beginner)
+- C (Beginner)
+- Rust (Basics)
+
+### Development Tools
+- VS Code, Git, GitHub, Docker
+
+## Notable Projects (26+ Completed)
+
+### AI & Computer Vision
+1. **Face Find** - Facial recognition search application using deep learning and OpenCV
+2. **Dog Classifier** - Web-based dog breed classification using CNN
+3. **Digit Classifier** - Handwritten digit recognition with MNIST dataset
+4. **Hand-Controlled Games** - YOLO + Mediapipe for gesture-controlled gaming
+5. **Traffic Management System** - Computer vision-based vehicle detection and tracking (3rd place at State-Level Codeathon 2023)
+6. **Open Sites using Hand Shortcuts** - Gesture control for system operations
+
+### Full-Stack Applications
+1. **Library Web System** - MERN stack library management with authentication
+2. **Hospital Management System** - Comprehensive healthcare management platform
+3. **Sustainable Packaging Solutions** - Enterprise supply chain management
+4. **easy task** - Production task management app (deployed for 15 employees)
+5. **Mark Report Generator** - Automated student report generation for colleges
+
+### AI & NLP
+1. **Thirukkural Generator** - Tamil text generation using TensorFlow LSTM
+2. **SQL Agent** - Natural language to SQL query converter using Langchain
+3. **React + Langchain MCP AI Chatbot** - Conversational AI with context awareness
+4. **AI MCQ Quiz App** - AI-generated quiz application
+
+### Machine Learning & Data Science
+1. **Kaggle Titanic Competition** - Survival prediction model
+2. **Kaggle House Price Prediction** - Regression model with feature engineering
+3. **Supermarket Data EDA** - Comprehensive data analysis with Power BI
+
+### Games & Interactive
+1. **Pong Game with AI** - Reinforcement learning opponent
+2. **Reaction Time Game** - Web-based cognitive performance testing
+
+### Systems Programming
+1. **ToDo List (Rust CLI)** - Command-line task manager in Rust
+2. **Prime Number Generator [CUDA]** - GPU-accelerated computation
+3. **Programming Language Speed Test** - Performance benchmarking across 18 languages
+
+### Specialized Applications
+1. **Julia/Mandelbrot Set Visualization** - Interactive fractal generation
+2. **Phishing Tool** - Educational cybersecurity research tool
+3. **Android Number Format Converter** - Mobile format conversion app
+
+## Achievements
+- **3rd Place** - State-Level Codeathon 2023 at Prathyusha Engineering College (Traffic Management System)
+- **Winner** - Programming Contest 2023, DMI College of Engineering
+- **Winner** - Technical Quiz 2024, DMI College of Engineering
+- **3rd Place** - Design Fest, DMI College of Engineering
+- **Participant** - Design Spark Challenge by School of Design Thinking Intellect (2-day hackathon)
+
+## Experience
+**Internship** - Application Development & Automation Role
+- Company: Idea Shop, Salem
+- Duration: 1 month (August - September 2025)
+
+## Portfolio Website
+Built with React, TypeScript, Vite, Tailwind CSS, Framer Motion, GSAP, and Spline 3D graphics. Features include:
+- Interactive 3D elements
+- Dark/Light theme switching
+- Smooth animations
+- Responsive design
+- Modern UI with Radix UI and shadcn/ui
+
+## Contact
+Available for collaborations, internships, and full-time opportunities in AI, Machine Learning, and Full-Stack Development.
+
+## Resume
+Download CV: Available on portfolio website
+
+---
+Last Updated: November 2025
+Portfolio: https://vetriselvan.space

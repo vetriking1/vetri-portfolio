@@ -1,0 +1,32 @@
+{
+  "name": "Vetri Selvan M - AI Developer Portfolio",
+  "short_name": "Vetri Selvan M",
+  "description": "AI Developer & Full-Stack Engineer Portfolio showcasing 26+ projects in Machine Learning, Computer Vision, and Web Development",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/og.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/og.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["portfolio", "technology", "education"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

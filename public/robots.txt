@@ -1,3 +1,18 @@
+# Vetri Selvan M Portfolio - robots.txt
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://vetriselvan.space/sitemap.xml
+
+# Search Engine Bots
 User-agent: Googlebot
 Allow: /
 
@@ -10,5 +25,30 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+# AI Crawlers and LLMs
+User-agent: GPTBot
 Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# LLM.txt for AI agents
+# See /llm.txt for structured information about Vetri Selvan M

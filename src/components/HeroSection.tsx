@@ -171,17 +171,18 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <button
-              onClick={scrollToAbout}
+            <a
+              href="/VSResume.pdf"
+              download="Vetri_Selvan_M_Resume.pdf"
               className={`group relative px-8 py-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-full font-semibold text-lg overflow-hidden transition-all ${
                 theme === "light" 
                   ? "hover:shadow-xl hover:shadow-primary/30 text-white" 
                   : "hover:shadow-lg hover:shadow-primary/50"
               }`}
             >
-              <span className="relative z-10">Explore My Work</span>
+              <span className="relative z-10">Download My CV</span>
               <div className="absolute inset-0 bg-gradient-to-r from-accent via-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            </button>
+            </a>
             
             <a
               href="#contact"
