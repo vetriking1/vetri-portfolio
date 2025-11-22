@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import Spline from '@splinetool/react-spline';
+import { useViewportSize } from "@/hooks/use-viewport-size";
 
 const HeroSection = () => {
   const [displayText, setDisplayText] = useState("");
@@ -10,6 +11,7 @@ const HeroSection = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("dark");
   const viewerRef = useRef<HTMLDivElement>(null);
+  const { width } = useViewportSize();
   
   const words = [
     "Developer",
@@ -18,6 +20,9 @@ const HeroSection = () => {
     "Learner",
     "Problem Solver"
   ];
+
+  // Determine if mobile viewport
+  const isMobile = width < 768;
 
   // Theme detection
   useEffect(() => {
@@ -90,7 +95,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Spline 3D Background - Dark Mode */}
       {theme === "dark" && (
-        <div className="absolute inset-0 z-0 scale-150 md:scale-125">
+        <div className={`absolute inset-0 z-0 ${isMobile ? 'scale-100' : 'scale-150 md:scale-125'}`}>
           <Spline
             scene="https://prod.spline.design/y5Eh9MVOHocUBg3N/scene.splinecode"
             className="w-full h-full"
@@ -102,7 +107,7 @@ const HeroSection = () => {
       {theme === "light" && (
         <div 
           ref={viewerRef}
-          className="absolute inset-0 z-0 scale-110"
+          className={`absolute inset-0 z-0 ${isMobile ? 'scale-100' : 'scale-110'}`}
           style={{ opacity: 0.6 }}
         />
       )}

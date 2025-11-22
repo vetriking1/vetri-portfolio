@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { ExternalLink, Github } from "lucide-react";
 
 type Category = "All" | "AI & CV" | "Full-Stack" | "AI & NLP" | "ML & Data Science" | "Games" | "Systems" | "Specialized";
@@ -23,8 +23,7 @@ const projects: Project[] = [
     categories: ["AI & CV"],
     image: "/projects-imgs/FaceFind.png",
     gradient: "from-primary to-secondary",
-    githubUrl: "https://github.com/yourusername/face-find",
-    liveUrl: "https://face-find.vercel.app",
+    githubUrl: "https://github.com/vetriking1/FaceFind",
   },
   {
     title: "Dog Classifier",
@@ -42,7 +41,7 @@ const projects: Project[] = [
     categories: ["AI & CV", "ML & Data Science"],
     image: "/projects-imgs/digit_classification.png",
     gradient: "from-accent to-tertiary",
-    githubUrl: "https://github.com/yourusername/digit-classifier",
+    githubUrl: "https://github.com/vetriking1/Handwritten-Digit-Prediction",
   },
   {
     title: "Hand-Controlled Games",
@@ -60,7 +59,7 @@ const projects: Project[] = [
     categories: ["AI & CV", "Specialized"],
     image: "/projects-imgs/traffic_managment_system.png",
     gradient: "from-primary to-accent",
-    githubUrl: "https://github.com/yourusername/traffic-management-system",
+    githubUrl: "https://github.com/vetriking1/Trafic_managment_system",
   },
   {
     title: "Hand Shortcuts Control",
@@ -78,7 +77,7 @@ const projects: Project[] = [
     categories: ["Full-Stack"],
     image: "/projects-imgs/library.png",
     gradient: "from-primary to-secondary",
-    githubUrl: "https://github.com/yourusername/library-web-system",
+    githubUrl: "https://github.com/vetriking1/Library-Managment",
     liveUrl: "https://library-system.vercel.app",
   },
   {
@@ -88,7 +87,7 @@ const projects: Project[] = [
     categories: ["Full-Stack"],
     image: "/projects-imgs/hospital_managment.png",
     gradient: "from-accent to-primary",
-    githubUrl: "https://github.com/yourusername/hospital-management-system",
+    githubUrl: "https://github.com/vetriking1/hosplital",
   },
   {
     title: "Sustainable Packaging Solutions",
@@ -97,7 +96,7 @@ const projects: Project[] = [
     categories: ["Full-Stack"],
     image: "/projects-imgs/sustaiable_packaging.png",
     gradient: "from-secondary to-accent",
-    githubUrl: "https://github.com/yourusername/sustainable-packaging-solutions",
+    githubUrl: "https://github.com/vetriking1/codeathon3.0",
   },
   {
     title: "easy task - Task Management",
@@ -106,8 +105,6 @@ const projects: Project[] = [
     categories: ["Full-Stack"],
     image: "/projects-imgs/easytask.png",
     gradient: "from-tertiary to-secondary",
-    githubUrl: "https://github.com/yourusername/easy-task",
-    liveUrl: "https://easytask.app",
   },
   {
     title: "Mark Report Generator",
@@ -251,7 +248,6 @@ const projects: Project[] = [
     categories: ["Specialized"],
     image: "/projects-imgs/androidapp.jpg",
     gradient: "from-tertiary to-secondary",
-    githubUrl: "https://github.com/yourusername/android-number-converter",
   },
 ];
 
@@ -262,9 +258,12 @@ const ProjectsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [selectedCategory, setSelectedCategory] = useState<Category>("All");
 
-  const filteredProjects = selectedCategory === "All" 
-    ? projects 
-    : projects.filter(project => project.categories.includes(selectedCategory));
+  const filteredProjects = useMemo(() => 
+    selectedCategory === "All" 
+      ? projects 
+      : projects.filter(project => project.categories.includes(selectedCategory)),
+    [selectedCategory]
+  );
 
   return (
     <section
@@ -314,36 +313,24 @@ const ProjectsSection = () => {
         </motion.div>
 
         {/* Projects Grid */}
-        <motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project, index) => (
             <motion.div
               key={project.title}
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="group relative perspective-1000"
-              whileHover={{ 
-                scale: 1.02,
-                rotateY: 2,
-                rotateX: 2,
-                z: 50,
-              }}
-              style={{ transformStyle: "preserve-3d" }}
+              initial={isInView ? { opacity: 0, y: 20 } : false}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.3, delay: Math.min(index * 0.03, 0.6) }}
+              className="group relative"
             >
-              <div className="relative h-full p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden shadow-lg group-hover:shadow-2xl group-hover:shadow-primary/20">
+              <div className="relative h-full p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors duration-200 overflow-hidden shadow-lg hover:shadow-xl">
                 {/* Gradient Background */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                  className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-200`}
                 ></div>
 
                 {/* Project Image */}
                 <div
-                  className={`relative w-full h-40 rounded-lg mb-4 overflow-hidden transform group-hover:scale-105 transition-transform duration-300 ${
+                  className={`relative w-full h-40 rounded-lg mb-4 overflow-hidden ${
                     project.image ? "" : `bg-gradient-to-br ${project.gradient}`
                   }`}
                 >
@@ -351,10 +338,11 @@ const ProjectsSection = () => {
                     <img 
                       src={project.image} 
                       alt={project.title}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center">
+                    <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
                       <div className="text-4xl font-bold text-foreground/20">
                         {project.title.charAt(0)}
                       </div>
@@ -363,7 +351,7 @@ const ProjectsSection = () => {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-lg font-bold text-foreground mb-2 group-hover:gradient-text transition-all">
+                <h3 className="text-lg font-bold text-foreground mb-2">
                   {project.title}
                 </h3>
 
@@ -416,7 +404,7 @@ const ProjectsSection = () => {
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         {/* No Results Message */}
         {filteredProjects.length === 0 && (
