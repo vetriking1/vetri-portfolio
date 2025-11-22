@@ -1,0 +1,91 @@
+{
+  "name": "Vetri Selvan M",
+  "title": "AI Developer & Full-Stack Engineer",
+  "education": {
+    "degree": "BE Computer Science Engineering",
+    "institution": "DMI College of Engineering",
+    "location": "Chennai, Tamil Nadu, India",
+    "period": "2022-Present",
+    "cgpa": 8.2
+  },
+  "specialization": [
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Computer Vision",
+    "Full-Stack Development"
+  ],
+  "skills": {
+    "frontend": ["React", "Next.js", "Tailwind CSS", "HTML", "CSS", "TypeScript", "JavaScript"],
+    "backend": ["Node.js", "Express.js", "FastAPI", "Flask"],
+    "databases": ["MongoDB", "SQL", "Supabase"],
+    "ai_ml": ["TensorFlow", "PyTorch", "Scikit-learn", "XGBoost", "Ollama", "Langchain", "CrewAI"],
+    "languages": ["Python", "JavaScript", "TypeScript", "Java", "C", "Rust"],
+    "tools": ["VS Code", "Git", "GitHub", "Docker", "Vercel"]
+  },
+  "projects": {
+    "total": 26,
+    "featured": [
+      {
+        "name": "Face Find",
+        "category": "AI & Computer Vision",
+        "description": "Facial recognition search application using deep learning and OpenCV"
+      },
+      {
+        "name": "Traffic Management System",
+        "category": "Computer Vision",
+        "description": "Computer vision-based vehicle detection and tracking",
+        "achievement": "3rd place at State-Level Codeathon 2023"
+      },
+      {
+        "name": "Library Web System",
+        "category": "Full-Stack",
+        "description": "MERN stack library management with authentication"
+      },
+      {
+        "name": "Hospital Management System",
+        "category": "Full-Stack",
+        "description": "Comprehensive healthcare management platform"
+      },
+      {
+        "name": "easy task",
+        "category": "Full-Stack",
+        "description": "Production task management app deployed for 15 employees"
+      },
+      {
+        "name": "SQL Agent",
+        "category": "AI & NLP",
+        "description": "Natural language to SQL query converter using Langchain"
+      },
+      {
+        "name": "Dog Classifier",
+        "category": "Machine Learning",
+        "description": "Web-based dog breed classification using CNN"
+      },
+      {
+        "name": "Hand-Controlled Games",
+        "category": "Computer Vision",
+        "description": "YOLO + Mediapipe for gesture-controlled gaming"
+      }
+    ]
+  },
+  "achievements": [
+    "3rd Place - State-Level Codeathon 2023 at Prathyusha Engineering College",
+    "Winner - Programming Contest 2023, DMI College of Engineering",
+    "Winner - Technical Quiz 2024, DMI College of Engineering",
+    "3rd Place - Design Fest, DMI College of Engineering"
+  ],
+  "experience": [
+    {
+      "role": "Application Development & Automation Intern",
+      "company": "Idea Shop",
+      "location": "Salem",
+      "duration": "1 month",
+      "period": "August - September 2025"
+    }
+  ],
+  "contact": {
+    "website": "https://vetriselvan.space",
+    "availability": "Available for collaborations, internships, and full-time opportunities"
+  },
+  "lastUpdated": "November 2025"
+}

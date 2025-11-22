@@ -52,3 +52,9 @@ Allow: /
 
 # LLM.txt for AI agents
 # See /llm.txt for structured information about Vetri Selvan M
+# See /api.json for machine-readable JSON data
+
+# Important resources for AI/LLM crawlers:
+# - /llm.txt - Human-readable portfolio information
+# - /api.json - Structured JSON data
+# - /sitemap.xml - Site structure

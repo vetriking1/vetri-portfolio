@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Vetri Selvan M Portfolio",
+  "name_for_model": "vetriselvan_portfolio",
+  "description_for_human": "Portfolio of Vetri Selvan M - AI Developer & Full-Stack Engineer with 26+ projects",
+  "description_for_model": "Access information about Vetri Selvan M, a Computer Science Engineering student specializing in AI, Machine Learning, Computer Vision, and Full-Stack Development. View projects, skills, achievements, and contact information.",
+  "api": {
+    "type": "openapi",
+    "url": "https://vetriselvan.space/api.json"
+  },
+  "auth": {
+    "type": "none"
+  },
+  "logo_url": "https://vetriselvan.space/og.png",
+  "contact_email": "contact@vetriselvan.space",
+  "legal_info_url": "https://vetriselvan.space"
+}

@@ -100,6 +100,29 @@ bun dev
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
 
+## 🤖 LLM Optimization
+
+This portfolio is optimized for AI/LLM accessibility! When ChatGPT, Claude, or other LLMs visit your site, they can read your full portfolio.
+
+### Quick Links:
+- **Quick Start:** See `QUICK-START.md` for deployment
+- **Full Guide:** See `LLM-OPTIMIZATION.md` for technical details
+- **Summary:** See `SOLUTION-SUMMARY.md` for overview
+
+### Key Features:
+- ✅ `/llm.txt` - Human-readable portfolio for LLMs
+- ✅ `/api.json` - Machine-readable structured data
+- ✅ `<noscript>` fallback with full content
+- ✅ JSON-LD structured data (Schema.org)
+- ✅ Optimized for AI crawlers (GPTBot, Claude-Web, etc.)
+
+### Test After Deploy:
+```bash
+node test-llm-access.js
+```
+
+Then ask an LLM: "What can you tell me about vetriselvan.space?"
+
 ## Portfolio Sections
 
 ### Hero Section
