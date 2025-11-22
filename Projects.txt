@@ -1,0 +1,106 @@
+(done)1. Face Find — Facial Recognition Search
+
+Category: AI • Computer Vision • Full-Stack
+
+(done) 2. Library Web System
+
+Category: Full-Stack Web App • Auth System
+
+(db lost) 3. E-Commerce Website (React + Express)
+
+Category: Full-Stack Web Development
+
+(done) 4. Hospital Management System (MERN)
+
+Category: Full-Stack Web App
+
+(done) 5. Sustainable Packaging Solutions (MERN)
+
+Category: Full-Stack Enterprise App
+
+(done) 6. ToDo List (Rust CLI App)
+
+Category: Systems Programming • Productivity App
+
+(done) 7. Julia/Mandelbrot Set Visualization (Python + Numba + Julia)
+
+Category: Mathematical Visualization
+
+(done) 8. Pong Game with AI
+
+Category: Reinforcement Learning / Game AI
+
+(need major update) 9. RAG Chatbot + Vision
+
+Category: AI Agents • RAG • Multimodal
+
+(done) 10. Thirukkural Generator (TensorFlow)
+
+Category: NLP • Deep Learning
+
+(need major update) 11. Hydroponics Farming AI Agent
+
+Category: AI Agents • AgriTech
+
+(done) 12. Digit Classifier (PyTorch)
+
+Category: Deep Learning
+
+(done) 13. Hand-Controlled Games (YOLO + Mediapipe)
+
+(Dino Game, Car Race Game, Jump Game)
+Category: CV • Interactive Systems
+
+(need major update) 14. Tamil Chatbot (LSTM)
+
+Category: NLP
+
+(need major update)15. CryptoTools — SHA256, Digital Signature, Blockchain
+
+Category: Blockchain • Cryptography
+
+(done) 16. Phishing Tool (Ethical Research Tool)
+
+Category: Cybersecurity • Web Exploitation
+
+(done)17.Prime Number Python[CUDA] (10/2/24) - 
+GPU programming + C,Cpp,Rust,Go,Java	
+
+(db lost) 18. Cricket Management System [React]
+
+(done) 19. Traffic Management System (OpenCV, YOLO, Multi Threading)
+Object Detection ,Object Tracking, Object Counting 
+
+(done) 20. Programming Language Speed Test
+1 to 1billion count across 18 different languages 
+
+(done) 21. Kaggle Titanic Competition Prediction (Classification 0,1) (12/21/24)
+
+(done) 22.Kaggle House Price Prediction [Regression] (10/12/24)
+
+(done) 23. SQL Agent (8/22/25) Using Langchain & Local AI 
+
+(done) 24. React + Langchain MCP AI Chatbot (8/27/25) 
+
+(done) 25. Dog Classifier (9/8/2023) Python Flask(HTML, CSS, JS) , Tensorflow 
+
+(done) 26. easy task (11/6/2025) React + Supabase Task Managment App for companies 
+currently deployed in a company size of 15
+
+(on going) 27. GST Invoice Generation App -  Next JS + Supabase 
+
+(done) 28. super Market data EDA [PowerBI + Pandas] (1/11/25)
+
+(done) 29. Open Sites using Hand Shortcut + Control Sound & Brightness  (Open CV (9/11/2024))
+
+(done) 30. Mark Report Generator for College (9/23/2025) Supabase + React 
+
+(done) 31. AI MCQ Quiz App (8/2/25) Fully VIbe coded App
+
+(done) 32. Android App Text - Binary,Octal,Exa Format also Number to Any Format (Binary,OCtal,Exa) Java 
+
+(major update ) 33. - Voice Assistant TTS Model With Some controls (10/18/24)
+
+(done)34. - Reaction Time Game (5/27/25)
+
+(need major update) 35. Movie Recommender 
