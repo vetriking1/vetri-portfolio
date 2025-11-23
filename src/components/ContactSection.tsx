@@ -1,30 +1,33 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useRef, useMemo, useCallback } from "react";
 import { Mail, Github, Linkedin, Phone, MessageCircle, XIcon, Code2, Trophy } from "lucide-react";
 
 const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const prefersReducedMotion = useReducedMotion();
 
   const phoneNumber = "+919600718540";
   const whatsappNumber = "919600718540";
 
-  const handleCall = () => {
+  // Memoize handlers to prevent recreation
+  const handleCall = useCallback(() => {
     window.location.href = `tel:${phoneNumber}`;
-  };
+  }, [phoneNumber]);
 
-  const handleWhatsApp = () => {
+  const handleWhatsApp = useCallback(() => {
     window.open(`https://wa.me/${whatsappNumber}?text=Hi%20Vetri%20Selvan!%20I'd%20like%20to%20connect%20with%20you.`, "_blank");
-  };
+  }, [whatsappNumber]);
 
-  const socialLinks = [
+  // Memoize social links to prevent recreation
+  const socialLinks = useMemo(() => [
     { icon: Mail, href: "mailto:vetriselvan2005.11.18@gmail.com", label: "Email" },
     { icon: Github, href: "https://github.com/vetriking1", label: "GitHub" },
     { icon: Linkedin, href: "https://www.linkedin.com/in/vetri-selvan-m-790022254/", label: "LinkedIn" },
     { icon: Code2, href: "https://leetcode.com/u/Vetriselvan18/", label: "LeetCode" },
     { icon: Trophy, href: "https://www.hackerrank.com/profile/vking1060", label: "HackerRank" },
     { icon: XIcon, href: "https://x.com/VetKing0318?t=Pyfgr3nQXAiD9Z1n97ed4g&s=09", label: "X.com" },
-  ];
+  ], []);
 
   return (
     <section
@@ -34,9 +37,9 @@ const ContactSection = () => {
     >
       <div className="max-w-7xl mx-auto w-full">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl font-bold mb-4">
@@ -51,9 +54,9 @@ const ContactSection = () => {
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Contact Actions */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
             className="space-y-6"
           >
             {/* Call Me Button */}
@@ -72,13 +75,12 @@ const ContactSection = () => {
               </p>
               <button
                 onClick={handleCall}
-                className="w-full group relative px-8 py-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-lg font-semibold overflow-hidden transition-all hover:shadow-lg hover:shadow-primary/50"
+                className="w-full px-8 py-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-lg font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-primary/50 hover:scale-[1.02]"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2 text-white">
+                <span className="flex items-center justify-center gap-2 text-white">
                   <Phone className="w-5 h-5" />
                   {phoneNumber}
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-accent via-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </button>
             </div>
 
@@ -98,13 +100,12 @@ const ContactSection = () => {
               </p>
               <button
                 onClick={handleWhatsApp}
-                className="w-full group relative px-8 py-4 bg-gradient-to-r from-tertiary via-primary to-secondary rounded-lg font-semibold overflow-hidden transition-all hover:shadow-lg hover:shadow-tertiary/50"
+                className="w-full px-8 py-4 bg-gradient-to-r from-tertiary via-primary to-secondary rounded-lg font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-tertiary/50 hover:scale-[1.02]"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2 text-white">
+                <span className="flex items-center justify-center gap-2 text-white">
                   <MessageCircle className="w-5 h-5" />
                   Message on WhatsApp
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-secondary via-primary to-tertiary opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </button>
             </div>
 
@@ -129,9 +130,9 @@ const ContactSection = () => {
 
           {/* Contact Info */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
             className="space-y-8"
           >
             <div className="p-8 rounded-2xl bg-card border border-border">
@@ -153,12 +154,12 @@ const ContactSection = () => {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-4 p-4 rounded-lg bg-muted hover:bg-primary/10 border border-border hover:border-primary transition-all group"
+                      className="flex items-center gap-4 p-4 rounded-lg bg-muted hover:bg-primary/10 border border-border hover:border-primary transition-colors duration-200"
                     >
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                         <Icon className="w-6 h-6 text-background" />
                       </div>
-                      <span className="font-medium group-hover:gradient-text transition-all">
+                      <span className="font-medium">
                         {link.label}
                       </span>
                     </a>

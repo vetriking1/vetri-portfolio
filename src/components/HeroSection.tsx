@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
-import Spline from '@splinetool/react-spline';
+import { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { useViewportSize } from "@/hooks/use-viewport-size";
+
+// Lazy load Spline component
+const Spline = lazy(() => import('@splinetool/react-spline'));
 
 const HeroSection = () => {
   const [displayText, setDisplayText] = useState("");
@@ -10,6 +12,7 @@ const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [splineLoaded, setSplineLoaded] = useState(false);
   const viewerRef = useRef<HTMLDivElement>(null);
   const { width } = useViewportSize();
   
@@ -42,21 +45,43 @@ const HeroSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Load Spline viewer for light mode
+  // Load Spline viewer for light mode with cleanup
   useEffect(() => {
-    if (theme === "light" && viewerRef.current && !viewerRef.current.querySelector("spline-viewer")) {
+    if (theme === "light" && viewerRef.current) {
+      // Clean up previous viewer if exists
+      const existingViewer = viewerRef.current.querySelector("spline-viewer");
+      if (existingViewer) {
+        existingViewer.remove();
+      }
+
       const script = document.createElement("script");
       script.type = "module";
       script.src = "https://unpkg.com/@splinetool/viewer@1.12.0/build/spline-viewer.js";
-      document.head.appendChild(script);
+      
+      script.onload = () => {
+        if (viewerRef.current) {
+          const viewer = document.createElement("spline-viewer");
+          viewer.setAttribute("url", "https://prod.spline.design/cw7gf1jzocndEWD4/scene.splinecode");
+          viewer.addEventListener('load', () => setSplineLoaded(true));
+          viewerRef.current.appendChild(viewer);
+        }
+      };
 
-      const viewer = document.createElement("spline-viewer");
-      viewer.setAttribute("url", "https://prod.spline.design/cw7gf1jzocndEWD4/scene.splinecode");
-      viewerRef.current.appendChild(viewer);
+      document.head.appendChild(script);
 
       return () => {
         script.remove();
+        if (viewerRef.current) {
+          const viewer = viewerRef.current.querySelector("spline-viewer");
+          if (viewer) {
+            viewer.remove();
+          }
+        }
       };
+    } else if (theme === "dark") {
+      // Trigger loaded state for dark mode after a short delay
+      const timer = setTimeout(() => setSplineLoaded(true), 1000);
+      return () => clearTimeout(timer);
     }
   }, [theme]);
 
@@ -95,12 +120,17 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Spline 3D Background - Dark Mode */}
       {theme === "dark" && (
-        <div className={`absolute inset-0 z-0 ${isMobile ? 'scale-100' : 'scale-150 md:scale-125'}`}>
-          <Spline
-            scene="https://prod.spline.design/y5Eh9MVOHocUBg3N/scene.splinecode"
-            className="w-full h-full"
-          />
-        </div>
+        <Suspense fallback={
+          <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 animate-pulse" />
+        }>
+          <div className={`absolute inset-0 z-0 ${isMobile ? 'scale-100' : 'scale-150 md:scale-125'}`}>
+            <Spline
+              scene="https://prod.spline.design/y5Eh9MVOHocUBg3N/scene.splinecode"
+              className="w-full h-full"
+              onLoad={() => setSplineLoaded(true)}
+            />
+          </div>
+        </Suspense>
       )}
 
       {/* Spline 3D Background - Light Mode */}

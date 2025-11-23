@@ -16,10 +16,14 @@ const Index = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Preload fonts
-    document.fonts.ready.then(() => {
+    // Preload critical resources
+    const preloadResources = async () => {
+      // Fonts are now preloaded in LoadingScreen
+      await document.fonts.ready;
       console.log("Fonts loaded");
-    });
+    };
+
+    preloadResources();
   }, []);
 
   return (

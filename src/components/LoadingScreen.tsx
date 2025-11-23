@@ -7,8 +7,65 @@ interface LoadingScreenProps {
 
 const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   const [progress, setProgress] = useState(0);
+  const [loadingStatus, setLoadingStatus] = useState("Initializing...");
 
   useEffect(() => {
+    let splineLoaded = false;
+    let fontsLoaded = false;
+    let runtimeLoaded = false;
+    
+    // Detect current theme
+    const isLight = document.documentElement.classList.contains("light");
+    const splineUrl = isLight 
+      ? "https://prod.spline.design/cw7gf1jzocndEWD4/scene.splinecode"
+      : "https://prod.spline.design/y5Eh9MVOHocUBg3N/scene.splinecode";
+
+    // Preload Spline runtime for light mode
+    if (isLight) {
+      setLoadingStatus("Loading 3D Runtime...");
+      const runtimeScript = document.createElement("script");
+      runtimeScript.type = "module";
+      runtimeScript.src = "https://unpkg.com/@splinetool/viewer@1.12.0/build/spline-viewer.js";
+      runtimeScript.onload = () => {
+        runtimeLoaded = true;
+        setProgress((prev) => Math.max(prev, 40));
+      };
+      runtimeScript.onerror = () => {
+        runtimeLoaded = true; // Continue anyway
+      };
+      document.head.appendChild(runtimeScript);
+    } else {
+      runtimeLoaded = true; // Dark mode uses React component
+    }
+
+    // Preload Spline model
+    setLoadingStatus("Loading 3D Models...");
+    const preloadSpline = async () => {
+      try {
+        const response = await fetch(splineUrl);
+        if (response.ok) {
+          await response.blob();
+          splineLoaded = true;
+          setLoadingStatus("3D Models Loaded");
+          setProgress((prev) => Math.max(prev, 70));
+        }
+      } catch (error) {
+        console.warn("Spline preload failed, will load on demand:", error);
+        splineLoaded = true; // Continue anyway
+      }
+    };
+
+    // Preload fonts
+    setLoadingStatus("Loading Fonts...");
+    document.fonts.ready.then(() => {
+      fontsLoaded = true;
+      setLoadingStatus("Ready to Launch");
+      setProgress((prev) => Math.max(prev, 90));
+    });
+
+    preloadSpline();
+
+    // Progress animation
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -16,9 +73,16 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
           setTimeout(onLoadingComplete, 500);
           return 100;
         }
-        return prev + 2;
+        
+        // Speed up progress once all resources are loaded
+        if (splineLoaded && fontsLoaded && runtimeLoaded && prev < 95) {
+          return prev + 8;
+        }
+        
+        // Normal progress
+        return prev + 1.5;
       });
-    }, 30);
+    }, 50);
 
     return () => clearInterval(interval);
   }, [onLoadingComplete]);
@@ -56,7 +120,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
             Entering Black Hole
           </h1>
           <p className="text-muted-foreground text-lg">
-            Initializing AI Experience...
+            {loadingStatus}
           </p>
           
           <div className="w-64 mx-auto h-2 bg-muted rounded-full overflow-hidden">

@@ -1,5 +1,5 @@
-import { motion, useInView } from "framer-motion";
-import { useRef, useState, useMemo } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useRef, useState, useMemo, useCallback } from "react";
 import { ExternalLink, Github } from "lucide-react";
 
 type Category = "All" | "AI & CV" | "Full-Stack" | "AI & NLP" | "ML & Data Science" | "Games" | "Systems" | "Specialized";
@@ -256,6 +256,7 @@ const categories: Category[] = ["All", "AI & CV", "Full-Stack", "AI & NLP", "ML 
 const ProjectsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const prefersReducedMotion = useReducedMotion();
   const [selectedCategory, setSelectedCategory] = useState<Category>("All");
 
   const filteredProjects = useMemo(() => 
@@ -265,6 +266,10 @@ const ProjectsSection = () => {
     [selectedCategory]
   );
 
+  const handleCategoryChange = useCallback((category: Category) => {
+    setSelectedCategory(category);
+  }, []);
+
   return (
     <section
       id="projects"
@@ -272,12 +277,7 @@ const ProjectsSection = () => {
       className="relative min-h-screen flex items-center justify-center py-20 px-4"
     >
       <div className="max-w-7xl mx-auto w-full">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12">
           <h2 className="text-5xl md:text-6xl font-bold mb-4">
             <span className="gradient-text-full">Featured Projects</span>
           </h2>
@@ -285,22 +285,17 @@ const ProjectsSection = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             26 innovative projects across AI, Full-Stack, ML, and more
           </p>
-        </motion.div>
+        </div>
 
         {/* Category Filter Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
-        >
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
           {categories.map((category) => (
             <button
               key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+              onClick={() => handleCategoryChange(category)}
+              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-colors duration-200 ${
                 selectedCategory === category
-                  ? "bg-gradient-to-r from-primary via-secondary to-accent text-white shadow-lg shadow-primary/50 scale-105"
+                  ? "bg-gradient-to-r from-primary via-secondary to-accent text-white"
                   : "bg-card border border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
               }`}
             >
@@ -310,23 +305,18 @@ const ProjectsSection = () => {
               </span>
             </button>
           ))}
-        </motion.div>
+        </div>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project, index) => (
-            <motion.div
+            <div
               key={project.title}
-              initial={isInView ? { opacity: 0, y: 20 } : false}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.3, delay: Math.min(index * 0.03, 0.6) }}
               className="group relative"
             >
-              <div className="relative h-full p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors duration-200 overflow-hidden shadow-lg hover:shadow-xl">
+              <div className="relative h-full p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors duration-200 overflow-hidden shadow-lg">
                 {/* Gradient Background */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-200`}
-                ></div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-200`} />
 
                 {/* Project Image */}
                 <div
@@ -339,6 +329,7 @@ const ProjectsSection = () => {
                       src={project.image} 
                       alt={project.title}
                       loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -402,19 +393,15 @@ const ProjectsSection = () => {
                   )}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* No Results Message */}
         {filteredProjects.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-20"
-          >
+          <div className="text-center py-20">
             <p className="text-xl text-muted-foreground">No projects found in this category</p>
-          </motion.div>
+          </div>
         )}
       </div>
     </section>
