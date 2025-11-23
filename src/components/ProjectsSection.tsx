@@ -1,6 +1,6 @@
-import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useRef, useState, useMemo, useCallback } from "react";
+import { useRef, useState, useMemo, useCallback, memo } from "react";
 import { ExternalLink, Github } from "lucide-react";
+import { useLazyImage } from "@/hooks/use-lazy-image";
 
 type Category = "All" | "AI & CV" | "Full-Stack" | "AI & NLP" | "ML & Data Science" | "Games" | "Systems" | "Specialized";
 
@@ -32,7 +32,7 @@ const projects: Project[] = [
     categories: ["AI & CV", "ML & Data Science"],
     image: "/projects-imgs/Dog_classifier.png",
     gradient: "from-secondary to-accent",
-    githubUrl: "https://github.com/yourusername/dog-classifier",
+    githubUrl: "https://github.com/vetriking1/Dog-Classifier",
   },
   {
     title: "Digit Classifier",
@@ -50,7 +50,7 @@ const projects: Project[] = [
     categories: ["AI & CV", "Games"],
     image: "/projects-imgs/game_controlled_hand.png",
     gradient: "from-tertiary to-primary",
-    githubUrl: "https://github.com/yourusername/hand-controlled-games",
+    githubUrl: "https://github.com/vetriking1/Game-Controlled-Hand",
   },
   {
     title: "Traffic Management System",
@@ -68,7 +68,7 @@ const projects: Project[] = [
     categories: ["AI & CV", "Specialized"],
     image: "/projects-imgs/shortcut_hand.png",
     gradient: "from-secondary to-tertiary",
-    githubUrl: "https://github.com/yourusername/hand-shortcuts-control",
+    githubUrl: "https://github.com/vetriking1/Hand-Shortcut",
   },
   {
     title: "Library Web System",
@@ -78,7 +78,6 @@ const projects: Project[] = [
     image: "/projects-imgs/library.png",
     gradient: "from-primary to-secondary",
     githubUrl: "https://github.com/vetriking1/Library-Managment",
-    liveUrl: "https://library-system.vercel.app",
   },
   {
     title: "Hospital Management System",
@@ -149,8 +148,8 @@ const projects: Project[] = [
     categories: ["AI & NLP", "Full-Stack"],
     image: "/projects-imgs/quizapp.png",
     gradient: "from-primary to-secondary",
-    githubUrl: "https://github.com/yourusername/ai-mcq-quiz-app",
-    liveUrl: "https://ai-quiz-app.vercel.app",
+    githubUrl: "https://github.com/vetriking1/Ai-Quiz-App",
+    liveUrl: "https://mcqiuz.netlify.app/",
   },
   {
     title: "Kaggle Titanic Prediction",
@@ -158,7 +157,7 @@ const projects: Project[] = [
     tags: ["Python", "Pandas", "Scikit-learn", "Matplotlib"],
     categories: ["ML & Data Science"],
     gradient: "from-secondary to-tertiary",
-    githubUrl: "https://github.com/yourusername/kaggle-titanic-prediction",
+    githubUrl: "https://github.com/vetriking1/TitanicKaggleCompetition",
   },
   {
     title: "Kaggle House Price Prediction",
@@ -166,7 +165,7 @@ const projects: Project[] = [
     tags: ["Python", "Pandas", "XGBoost", "Scikit-learn"],
     categories: ["ML & Data Science"],
     gradient: "from-accent to-primary",
-    githubUrl: "https://github.com/yourusername/kaggle-house-price-prediction",
+    githubUrl: "https://github.com/vetriking1/HousePricePrediction",
   },
   {
     title: "Supermarket Data EDA",
@@ -175,7 +174,7 @@ const projects: Project[] = [
     categories: ["ML & Data Science"],
     image: "/projects-imgs/supermarket_eda.png",
     gradient: "from-tertiary to-secondary",
-    githubUrl: "https://github.com/yourusername/supermarket-data-eda",
+    githubUrl: "https://github.com/vetriking1/SuperMarket-EDA",
   },
   {
     title: "Pong Game with AI",
@@ -184,7 +183,7 @@ const projects: Project[] = [
     categories: ["Games", "AI & CV"],
     image: "/projects-imgs/pong_game.png",
     gradient: "from-primary to-accent",
-    githubUrl: "https://github.com/yourusername/pong-game-ai",
+    githubUrl: "https://github.com/vetriking1/PongGame",
   },
   {
     title: "Reaction Time Game",
@@ -193,8 +192,8 @@ const projects: Project[] = [
     categories: ["Games"],
     image: "/projects-imgs/reaction_time.png",
     gradient: "from-secondary to-primary",
-    githubUrl: "https://github.com/yourusername/reaction-time-game",
-    liveUrl: "https://reaction-time-game.vercel.app",
+    githubUrl: "https://github.com/vetriking1/reactionTIme",
+    liveUrl: "https://vetriking1.github.io/reactionTIme/",
   },
   {
     title: "ToDo List (Rust CLI)",
@@ -203,7 +202,7 @@ const projects: Project[] = [
     categories: ["Systems"],
     image: "/projects-imgs/cli_rust_todo.png",
     gradient: "from-accent to-tertiary",
-    githubUrl: "https://github.com/yourusername/rust-todo-cli",
+    githubUrl: "https://github.com/vetriking1/TODOrust",
   },
   {
     title: "Prime Number Generator [CUDA]",
@@ -211,7 +210,7 @@ const projects: Project[] = [
     tags: ["CUDA", "Python", "C", "C++", "Rust", "Go"],
     categories: ["Systems"],
     gradient: "from-tertiary to-primary",
-    githubUrl: "https://github.com/yourusername/cuda-prime-generator",
+    githubUrl: "https://github.com/vetriking1/Prime-Gen",
   },
   {
     title: "Programming Language Speed Test",
@@ -220,7 +219,7 @@ const projects: Project[] = [
     categories: ["Systems"],
     image: "/projects-imgs/speed_test_languages.png",
     gradient: "from-primary to-secondary",
-    githubUrl: "https://github.com/yourusername/programming-language-speed-test",
+    githubUrl: "https://github.com/vetriking1/Speed_comparison",
   },
   {
     title: "Julia/Mandelbrot Set Visualization",
@@ -229,8 +228,7 @@ const projects: Project[] = [
     categories: ["Specialized"],
     image: "/projects-imgs/julia_set.jpeg",
     gradient: "from-secondary to-accent",
-    githubUrl: "https://github.com/yourusername/julia-mandelbrot-visualization",
-    liveUrl: "https://julia-mandelbrot.streamlit.app",
+    githubUrl: "]https://github.com/vetriking1/juliaset-web-app",
   },
   {
     title: "Phishing Tool",
@@ -239,7 +237,7 @@ const projects: Project[] = [
     categories: ["Specialized"],
     image: "/projects-imgs/fishing_tool.png",
     gradient: "from-accent to-primary",
-    githubUrl: "https://github.com/yourusername/phishing-tool",
+    githubUrl: "https://github.com/vetriking1/phishing-tool",
   },
   {
     title: "Android Number Format Converter",
@@ -253,10 +251,109 @@ const projects: Project[] = [
 
 const categories: Category[] = ["All", "AI & CV", "Full-Stack", "AI & NLP", "ML & Data Science", "Games", "Systems", "Specialized"];
 
+// Memoized project card component with lazy image loading
+const ProjectCard = memo(({ project }: { project: Project }) => {
+  const { imgRef, imageSrc, isLoaded } = useLazyImage(project.image || "");
+
+  return (
+    <div className="group relative">
+      <div className="relative h-full p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors duration-200 overflow-hidden shadow-lg">
+        {/* Gradient Background */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-200`} />
+
+        {/* Project Image */}
+        <div
+          ref={imgRef}
+          className={`relative w-full h-40 rounded-lg mb-4 overflow-hidden ${
+            project.image ? "bg-muted" : `bg-gradient-to-br ${project.gradient}`
+          }`}
+        >
+          {project.image ? (
+            <>
+              {!isLoaded && (
+                <div className="absolute inset-0 bg-muted animate-pulse" />
+              )}
+              {imageSrc && (
+                <img 
+                  src={imageSrc} 
+                  alt={project.title}
+                  loading="lazy"
+                  decoding="async"
+                  className={`w-full h-full object-cover transition-opacity duration-300 ${
+                    isLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              )}
+            </>
+          ) : (
+            <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
+              <div className="text-4xl font-bold text-foreground/20">
+                {project.title.charAt(0)}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Content */}
+        <h3 className="text-lg font-bold text-foreground mb-2">
+          {project.title}
+        </h3>
+
+        <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-3">
+          {project.description}
+        </p>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {project.tags.slice(0, 4).map((tag, tagIndex) => (
+            <span
+              key={tagIndex}
+              className="px-2 py-0.5 text-xs rounded-full bg-muted text-muted-foreground border border-border"
+            >
+              {tag}
+            </span>
+          ))}
+          {project.tags.length > 4 && (
+            <span className="px-2 py-0.5 text-xs rounded-full bg-muted text-muted-foreground border border-border">
+              +{project.tags.length - 4}
+            </span>
+          )}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-3">
+          {project.liveUrl && (
+            <a 
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+            >
+              <ExternalLink className="w-3 h-3" />
+              <span>View</span>
+            </a>
+          )}
+          {project.githubUrl && (
+            <a 
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border border-border hover:border-primary transition-colors"
+            >
+              <Github className="w-3 h-3" />
+              <span>Code</span>
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+});
+
+ProjectCard.displayName = "ProjectCard";
+
 const ProjectsSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const prefersReducedMotion = useReducedMotion();
   const [selectedCategory, setSelectedCategory] = useState<Category>("All");
 
   const filteredProjects = useMemo(() => 
@@ -274,33 +371,33 @@ const ProjectsSection = () => {
     <section
       id="projects"
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center py-20 px-4"
+      className="relative min-h-screen flex items-center justify-center py-12 sm:py-20 px-3 sm:px-4"
     >
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="text-center mb-12">
-          <h2 className="text-5xl md:text-6xl font-bold mb-4">
+      <div className="max-w-7xl mx-auto w-full px-2 sm:px-0">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             <span className="gradient-text-full">Featured Projects</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary via-secondary to-accent mx-auto mb-6"></div>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-primary via-secondary to-accent mx-auto mb-4 sm:mb-6"></div>
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
             26 innovative projects across AI, Full-Stack, ML, and more
           </p>
         </div>
 
         {/* Category Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12 px-2">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => handleCategoryChange(category)}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-colors duration-200 ${
+              className={`px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 ${
                 selectedCategory === category
                   ? "bg-gradient-to-r from-primary via-secondary to-accent text-white"
                   : "bg-card border border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
               }`}
             >
               {category}
-              <span className="ml-2 text-xs opacity-70">
+              <span className="ml-1 sm:ml-2 text-xs opacity-70">
                 ({category === "All" ? projects.length : projects.filter(p => p.categories.includes(category)).length})
               </span>
             </button>
@@ -309,91 +406,8 @@ const ProjectsSection = () => {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project, index) => (
-            <div
-              key={project.title}
-              className="group relative"
-            >
-              <div className="relative h-full p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors duration-200 overflow-hidden shadow-lg">
-                {/* Gradient Background */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-200`} />
-
-                {/* Project Image */}
-                <div
-                  className={`relative w-full h-40 rounded-lg mb-4 overflow-hidden ${
-                    project.image ? "" : `bg-gradient-to-br ${project.gradient}`
-                  }`}
-                >
-                  {project.image ? (
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
-                      <div className="text-4xl font-bold text-foreground/20">
-                        {project.title.charAt(0)}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Content */}
-                <h3 className="text-lg font-bold text-foreground mb-2">
-                  {project.title}
-                </h3>
-
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-3">
-                  {project.description}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {project.tags.slice(0, 4).map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="px-2 py-0.5 text-xs rounded-full bg-muted text-muted-foreground border border-border"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                  {project.tags.length > 4 && (
-                    <span className="px-2 py-0.5 text-xs rounded-full bg-muted text-muted-foreground border border-border">
-                      +{project.tags.length - 4}
-                    </span>
-                  )}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-3">
-                  {project.liveUrl && (
-                    <a 
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
-                    >
-                      <ExternalLink className="w-3 h-3" />
-                      <span>View</span>
-                    </a>
-                  )}
-                  {project.githubUrl && (
-                    <a 
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border border-border hover:border-primary transition-colors"
-                    >
-                      <Github className="w-3 h-3" />
-                      <span>Code</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
+          {filteredProjects.map((project) => (
+            <ProjectCard key={project.title} project={project} />
           ))}
         </div>
 
@@ -408,4 +422,4 @@ const ProjectsSection = () => {
   );
 };
 
-export default ProjectsSection;
+export default memo(ProjectsSection);

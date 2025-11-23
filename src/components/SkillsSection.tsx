@@ -1,8 +1,5 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import {
   Code2,
-  Database,
   Brain,
   BarChart3,
   Terminal,
@@ -87,86 +84,53 @@ const skillCategories: SkillCategory[] = [
 ];
 
 const SkillsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
     <section
       id="skills"
-      ref={ref}
-      className="relative min-h-screen flex items-center justify-center py-20 px-4"
+      className="relative min-h-screen flex items-center justify-center py-12 sm:py-20 px-3 sm:px-4"
     >
-      <div className="max-w-7xl mx-auto w-full">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-5xl md:text-6xl font-bold mb-4">
+      <div className="max-w-7xl mx-auto w-full px-2 sm:px-0">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             <span className="gradient-text-full">Skills & Expertise</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary via-secondary to-accent mx-auto mb-6"></div>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-primary via-secondary to-accent mx-auto mb-4 sm:mb-6"></div>
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
             A comprehensive toolkit for building modern, AI-powered applications
           </p>
-        </motion.div>
+        </div>
 
         <div className="space-y-8">
           {skillCategories.map((category, categoryIndex) => {
             const Icon = category.icon;
             return (
-              <motion.div
-                key={categoryIndex}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: categoryIndex * 0.15 }}
-                className="group"
-              >
+              <div key={categoryIndex}>
                 {/* Category Header */}
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                   <div
-                    className={`relative w-12 h-12 rounded-lg bg-gradient-to-br ${category.color} p-2.5 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br ${category.color} p-2 sm:p-2.5 flex items-center justify-center shadow-lg`}
                   >
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-br ${category.color} blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-300`}
-                    ></div>
-                    <Icon className="w-full h-full text-background relative z-10" />
+                    <Icon className="w-full h-full text-background" />
                   </div>
-                  <h3 className="text-2xl font-bold text-foreground group-hover:gradient-text transition-all">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground">
                     {category.title}
                   </h3>
                 </div>
 
                 {/* Skills Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3">
                   {category.skills.map((skill, skillIndex) => (
-                    <motion.div
+                    <div
                       key={skillIndex}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                      transition={{
-                        duration: 0.4,
-                        delay: categoryIndex * 0.15 + skillIndex * 0.05,
-                      }}
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      className="group/skill"
+                      className="px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 rounded-md sm:rounded-lg bg-card border border-border hover:border-primary/50 transition-colors duration-200 shadow-sm"
                     >
-                      <div className="relative h-full px-4 py-3 rounded-lg bg-card border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-lg hover:shadow-primary/10">
-                        {/* Gradient Background on Hover */}
-                        <div
-                          className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover/skill:opacity-10 transition-opacity duration-300`}
-                        ></div>
-
-                        {/* Skill Name */}
-                        <p className="relative text-sm font-medium text-foreground text-center group-hover/skill:gradient-text transition-all">
-                          {skill}
-                        </p>
-                      </div>
-                    </motion.div>
+                      <p className="text-xs sm:text-sm font-medium text-foreground text-center leading-tight">
+                        {skill}
+                      </p>
+                    </div>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

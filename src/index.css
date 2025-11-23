@@ -118,9 +118,22 @@
     @apply border-border;
   }
 
+  html {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #root {
+    width: 100%;
     overflow-x: hidden;
   }
 
@@ -184,12 +197,19 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+
   @keyframes float {
     0%, 100% {
-      transform: translateY(0px);
+      transform: translateY(0px) translateX(0px);
     }
-    50% {
-      transform: translateY(-20px);
+    33% {
+      transform: translateY(-20px) translateX(10px);
+    }
+    66% {
+      transform: translateY(10px) translateX(-10px);
     }
   }
 
@@ -224,6 +244,135 @@
   /* 3D depth utility */
   .perspective-1000 {
     perspective: 1000px;
+  }
+
+  /* Performance-optimized animations */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounceSlow 2s ease-in-out infinite;
+  }
+
+  @keyframes bounceSlow {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(10px);
+    }
+  }
+
+  /* Performance optimizations */
+  /* GPU acceleration for smooth animations */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  /* Reduce repaints on scroll */
+  section {
+    contain: layout style;
+  }
+
+  /* Optimize images */
+  img {
+    content-visibility: auto;
+  }
+
+  /* Optimize cards and complex elements */
+  .bg-card,
+  .rounded-xl,
+  .rounded-2xl {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Optimize gradients on mobile */
+  @media (max-width: 768px) {
+    .bg-gradient-to-br,
+    .bg-gradient-to-r {
+      will-change: auto;
+    }
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    /* Ensure full width on mobile */
+    body, html, #root {
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
+    /* Better mobile padding */
+    section {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+
+    /* Prevent horizontal scroll */
+    * {
+      max-width: 100%;
+    }
+
+    /* Adjust container widths */
+    .max-w-7xl,
+    .max-w-5xl,
+    .max-w-2xl {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    /* Smaller text on mobile for better fit */
+    h1 {
+      font-size: 2rem !important;
+    }
+
+    h2 {
+      font-size: 1.75rem !important;
+    }
+
+    /* Reduce grid gaps on mobile */
+    .grid {
+      gap: 0.75rem !important;
+    }
+
+    /* Better card padding on mobile */
+    .rounded-2xl,
+    .rounded-xl {
+      padding: 1rem !important;
+    }
+  }
+
+  /* Extra small devices */
+  @media (max-width: 375px) {
+    section {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    h1 {
+      font-size: 1.75rem !important;
+    }
+
+    h2 {
+      font-size: 1.5rem !important;
+    }
   }
 }
 

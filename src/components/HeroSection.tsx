@@ -1,10 +1,22 @@
-import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { useViewportSize } from "@/hooks/use-viewport-size";
+import { usePerformanceMonitor } from "@/hooks/use-performance-monitor";
 
-// Lazy load Spline component
-const Spline = lazy(() => import('@splinetool/react-spline'));
+// Lazy load Spline component with delay for better initial load
+// On mobile, delay longer to prioritize content loading
+const Spline = lazy(() => 
+  new Promise<{ default: React.ComponentType<any> }>((resolve) => {
+    const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 768;
+    const delay = isMobileDevice ? 2000 : 1000; // 2s delay on mobile, 1s on desktop
+    
+    setTimeout(() => {
+      import('@splinetool/react-spline').then((module) => {
+        resolve({ default: module.default });
+      });
+    }, delay);
+  })
+);
 
 const HeroSection = () => {
   const [displayText, setDisplayText] = useState("");
@@ -13,8 +25,10 @@ const HeroSection = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [splineLoaded, setSplineLoaded] = useState(false);
+  const [disableSpline, setDisableSpline] = useState(false);
   const viewerRef = useRef<HTMLDivElement>(null);
   const { width } = useViewportSize();
+  const { isLagging } = usePerformanceMonitor(25); // Disable if FPS < 25
   
   const words = [
     "Developer",
@@ -24,8 +38,16 @@ const HeroSection = () => {
     "Problem Solver"
   ];
 
-  // Determine if mobile viewport
-  const isMobile = width < 768;
+  // Determine if mobile viewport (check both viewport and initial window width)
+  const isMobile = width < 768 || (typeof window !== 'undefined' && window.innerWidth < 768);
+
+  // Disable Spline if performance is lagging on mobile
+  useEffect(() => {
+    if (isMobile && isLagging && splineLoaded) {
+      console.log('Performance lag detected on mobile, disabling Spline');
+      setDisableSpline(true);
+    }
+  }, [isMobile, isLagging, splineLoaded]);
 
   // Theme detection
   useEffect(() => {
@@ -119,11 +141,11 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Spline 3D Background - Dark Mode */}
-      {theme === "dark" && (
+      {theme === "dark" && !disableSpline && (
         <Suspense fallback={
           <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 animate-pulse" />
         }>
-          <div className={`absolute inset-0 z-0 ${isMobile ? 'scale-100' : 'scale-150 md:scale-125'}`}>
+          <div className={`absolute inset-0 z-0 ${isMobile ? 'scale-[2] opacity-40' : 'scale-150 md:scale-125'}`}>
             <Spline
               scene="https://prod.spline.design/y5Eh9MVOHocUBg3N/scene.splinecode"
               className="w-full h-full"
@@ -134,12 +156,23 @@ const HeroSection = () => {
       )}
 
       {/* Spline 3D Background - Light Mode */}
-      {theme === "light" && (
+      {theme === "light" && !disableSpline && (
         <div 
           ref={viewerRef}
-          className={`absolute inset-0 z-0 ${isMobile ? 'scale-100' : 'scale-110'}`}
-          style={{ opacity: 0.6 }}
+          className={`absolute inset-0 z-0 ${isMobile ? 'scale-[1.5] opacity-30' : 'scale-110 opacity-60'}`}
         />
+      )}
+
+      {/* Fallback gradient background when Spline is disabled */}
+      {disableSpline && (
+        <>
+          <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 animate-pulse" />
+          <div className="absolute inset-0 z-0">
+            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/30 rounded-full blur-3xl animate-float" />
+            <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-accent/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+          </div>
+        </>
       )}
 
       {/* Gradient Overlay for better text readability */}
@@ -150,66 +183,36 @@ const HeroSection = () => {
       }`}></div>
 
       {/* Content */}
-      <div className="relative z-20 text-center px-4 max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <motion.div
-            className="mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            <h2 className="text-2xl md:text-4xl font-semibold text-primary mb-2">
+      <div className="relative z-20 text-center px-3 sm:px-4 max-w-5xl mx-auto animate-fade-in">
+        <div>
+          <div className="mb-4">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-primary mb-2">
               Hi, I'm
             </h2>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold gradient-text-full mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold gradient-text-full mb-4 leading-tight">
               Vetri Selvan M
             </h1>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 min-h-[80px] md:min-h-[100px]"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
+          <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 min-h-[60px] sm:min-h-[80px] md:min-h-[100px]">
             <span className="text-foreground">
               I'm a{" "}
               <span className="gradient-text-full">
                 {displayText}
-                <motion.span
-                  animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
-                  className="inline-block ml-1"
-                >
-                  |
-                </motion.span>
+                <span className="inline-block ml-1 animate-pulse">|</span>
               </span>
             </span>
-          </motion.div>
+          </div>
 
-          <motion.p
-            className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-          >
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto px-2">
             Exploring the future with cutting-edge AI technology and Curiosity
-          </motion.p>
+          </p>
 
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
             <a
               href="/VSResume.pdf"
               download="Vetri_Selvan_M_Resume.pdf"
-              className={`group relative px-8 py-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-full font-semibold text-lg overflow-hidden transition-all ${
+              className={`group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-full font-semibold text-sm sm:text-base md:text-lg overflow-hidden transition-all w-full sm:w-auto text-center ${
                 theme === "light" 
                   ? "hover:shadow-xl hover:shadow-primary/30 text-white" 
                   : "hover:shadow-lg hover:shadow-primary/50"
@@ -221,7 +224,7 @@ const HeroSection = () => {
             
             <a
               href="#contact"
-              className={`px-8 py-4 border-2 border-primary rounded-full font-semibold text-lg transition-all ${
+              className={`px-6 sm:px-8 py-3 sm:py-4 border-2 border-primary rounded-full font-semibold text-sm sm:text-base md:text-lg transition-all w-full sm:w-auto text-center ${
                 theme === "light"
                   ? "hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/30"
                   : "hover:bg-primary/10"
@@ -229,19 +232,17 @@ const HeroSection = () => {
             >
               Get In Touch
             </a>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
       {/* Scroll Indicator */}
-      <motion.button
+      <button
         onClick={scrollToAbout}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce-slow"
       >
         <ChevronDown className="w-8 h-8 text-primary" />
-      </motion.button>
+      </button>
     </section>
   );
 };

@@ -1,64 +1,49 @@
-import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useRef, useMemo, useCallback } from "react";
+import { useRef, memo, useCallback } from "react";
 import { Mail, Github, Linkedin, Phone, MessageCircle, XIcon, Code2, Trophy } from "lucide-react";
+
+const phoneNumber = "+919600718540";
+const whatsappNumber = "919600718540";
+
+const socialLinks = [
+  { icon: Mail, href: "mailto:vetriselvan2005.11.18@gmail.com", label: "Email" },
+  { icon: Github, href: "https://github.com/vetriking1", label: "GitHub" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/vetri-selvan-m-790022254/", label: "LinkedIn" },
+  { icon: Code2, href: "https://leetcode.com/u/Vetriselvan18/", label: "LeetCode" },
+  { icon: Trophy, href: "https://www.hackerrank.com/profile/vking1060", label: "HackerRank" },
+  { icon: XIcon, href: "https://x.com/VetKing0318?t=Pyfgr3nQXAiD9Z1n97ed4g&s=09", label: "X.com" },
+];
 
 const ContactSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const prefersReducedMotion = useReducedMotion();
 
-  const phoneNumber = "+919600718540";
-  const whatsappNumber = "919600718540";
-
-  // Memoize handlers to prevent recreation
   const handleCall = useCallback(() => {
     window.location.href = `tel:${phoneNumber}`;
-  }, [phoneNumber]);
+  }, []);
 
   const handleWhatsApp = useCallback(() => {
     window.open(`https://wa.me/${whatsappNumber}?text=Hi%20Vetri%20Selvan!%20I'd%20like%20to%20connect%20with%20you.`, "_blank");
-  }, [whatsappNumber]);
-
-  // Memoize social links to prevent recreation
-  const socialLinks = useMemo(() => [
-    { icon: Mail, href: "mailto:vetriselvan2005.11.18@gmail.com", label: "Email" },
-    { icon: Github, href: "https://github.com/vetriking1", label: "GitHub" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/vetri-selvan-m-790022254/", label: "LinkedIn" },
-    { icon: Code2, href: "https://leetcode.com/u/Vetriselvan18/", label: "LeetCode" },
-    { icon: Trophy, href: "https://www.hackerrank.com/profile/vking1060", label: "HackerRank" },
-    { icon: XIcon, href: "https://x.com/VetKing0318?t=Pyfgr3nQXAiD9Z1n97ed4g&s=09", label: "X.com" },
-  ], []);
+  }, []);
 
   return (
     <section
       id="contact"
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center py-20 px-4"
+      className="relative min-h-screen flex items-center justify-center py-12 sm:py-20 px-3 sm:px-4"
     >
-      <div className="max-w-7xl mx-auto w-full">
-        <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-5xl md:text-6xl font-bold mb-4">
+      <div className="max-w-7xl mx-auto w-full px-2 sm:px-0">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             <span className="gradient-text-full">Let's Connect</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary via-secondary to-accent mx-auto mb-6"></div>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-primary via-secondary to-accent mx-auto mb-4 sm:mb-6"></div>
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
             Have a project in mind or just want to chat? Drop me a message!
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Contact Actions */}
-          <motion.div
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
-            className="space-y-6"
-          >
+          <div className="space-y-6">
             {/* Call Me Button */}
             <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 border border-primary/20">
               <div className="flex items-center gap-4 mb-4">
@@ -126,15 +111,10 @@ const ContactSection = () => {
                 something amazing together!
               </p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Contact Info */}
-          <motion.div
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
-            className="space-y-8"
-          >
+          <div className="space-y-8">
             <div className="p-8 rounded-2xl bg-card border border-border">
               <h3 className="text-2xl font-bold mb-6 gradient-text">
                 Get in Touch
@@ -167,11 +147,11 @@ const ContactSection = () => {
                 })}
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default ContactSection;
+export default memo(ContactSection);

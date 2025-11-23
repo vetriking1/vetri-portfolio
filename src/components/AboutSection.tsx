@@ -1,90 +1,71 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import profileImage from "@/assets/profile.png";
+import { useTypewriter } from "@/hooks/use-typewriter";
+import { useCounter } from "@/hooks/use-counter";
 
 const AboutSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const textRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
   
-  const [displayedText, setDisplayedText] = useState("");
-  const [currentParagraph, setCurrentParagraph] = useState(0);
-  const [projectCount, setProjectCount] = useState(0);
-  
-  const paragraphs = [
-    "Hello! I'm Vetri Selvan M, a Computer Science student with a deep passion for Artificial Intelligence, Software Development, and Research. I love exploring technology and turning complex ideas into beautifully crafted, functional systems.",
-    "Over the years, I've worked across multiple domains, including AI, Machine Learning, Deep Learning, AI Agents, and Full-Stack Development. I believe the future belongs to people who learn to grow alongside AI—leveraging it as a companion to expand their skills, creativity, and knowledge.",
-    "My dream is to combine teaching, research, exploration, and innovation to create work that truly matters. I'm inspired by industry leaders like Geoffrey Hinton, the \"Godfather of AI,\" and Andrej Karpathy, who both blend vision with practical impact.",
-    "Outside of tech, I enjoy anime, gaming, human psychology, and exploring how things work. At my core, curiosity drives everything I do."
-  ];
+  const fullText = `Hello! I'm Vetri Selvan M, a Computer Science student with a deep passion for Artificial Intelligence, Software Development, and Research. I love exploring technology and turning complex ideas into beautifully crafted, functional systems.
 
-  // Typewriter effect
-  useEffect(() => {
-    if (!isInView) return;
-    
-    const fullText = paragraphs.join("\n\n");
-    let currentIndex = 0;
-    
-    const interval = setInterval(() => {
-      if (currentIndex <= fullText.length) {
-        setDisplayedText(fullText.slice(0, currentIndex));
-        currentIndex++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 10);
-    
-    return () => clearInterval(interval);
-  }, [isInView]);
+Over the years, I've worked across multiple domains, including AI, Machine Learning, Deep Learning, AI Agents, and Full-Stack Development. I believe the future belongs to people who learn to grow alongside AI—leveraging it as a companion to expand their skills, creativity, and knowledge.
 
-  // Counter animation for projects
+My dream is to combine teaching, research, exploration, and innovation to create work that truly matters. I'm inspired by industry leaders like Geoffrey Hinton, the "Godfather of AI," and Andrej Karpathy, who both blend vision with practical impact.
+
+Outside of tech, I enjoy anime, gaming, human psychology, and exploring how things work. At my core, curiosity drives everything I do.`;
+
   useEffect(() => {
-    if (!isInView) return;
-    
-    let start = 0;
-    const end = 35;
-    const duration = 2000;
-    const increment = end / (duration / 50);
-    
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        setProjectCount(end);
-        clearInterval(timer);
-      } else {
-        setProjectCount(Math.floor(start));
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (textRef.current) {
+      observer.observe(textRef.current);
+    }
+
+    return () => {
+      if (textRef.current) {
+        observer.unobserve(textRef.current);
       }
-    }, 50);
-    
-    return () => clearInterval(timer);
-  }, [isInView]);
+    };
+  }, []);
+
+  const { displayedText } = useTypewriter({
+    text: inView ? fullText : '',
+    speed: 20,
+    delay: 300,
+  });
+
+  const projectCount = useCounter({
+    end: 35,
+    start: 0,
+    duration: 2000,
+    delay: inView ? 500 : 0,
+  });
 
   return (
     <section
       id="about"
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center py-20 px-4"
+      className="relative min-h-screen flex items-center justify-center py-12 sm:py-20 px-3 sm:px-4"
     >
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-5xl md:text-6xl font-bold mb-4">
+      <div className="max-w-7xl mx-auto px-2 sm:px-0">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             <span className="gradient-text-full">About Me</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary via-secondary to-accent mx-auto"></div>
-        </motion.div>
+          <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-primary via-secondary to-accent mx-auto"></div>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
+          <div className="relative">
             <div className="relative w-full max-w-md mx-auto">
               {/* Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl blur-3xl opacity-30"></div>
@@ -95,85 +76,39 @@ const AboutSection = () => {
                   src={profileImage}
                   alt="Profile"
                   className="w-full h-auto object-cover"
+                  loading="lazy"
                 />
               </div>
-
-              {/* Floating Accent */}
-              <motion.div
-                className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-to-br from-secondary to-accent rounded-full blur-2xl opacity-50"
-                animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.5, 0.7, 0.5],
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-              ></motion.div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-6"
-          >
-            <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+          <div className="space-y-4 sm:space-y-6" ref={textRef}>
+            <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
               <span className="gradient-text-full">Growing with AI to build technology that truly matters</span>
             </h3>
             
-            <div className="text-lg text-muted-foreground leading-relaxed min-h-[400px] whitespace-pre-line">
+            <div className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line min-h-[400px]">
               {displayedText}
-              <motion.span
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
-                className="inline-block ml-1"
-              >
-                |
-              </motion.span>
+              {displayedText.length < fullText.length && (
+                <span className="animate-pulse">|</span>
+              )}
             </div>
 
-            <div className="grid grid-cols-2 gap-4 pt-6">
-              <motion.div 
-                className="text-center p-4 rounded-lg bg-card border border-primary/20 cursor-pointer"
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 0 25px hsl(150 91% 60% / 0.4)",
-                  borderColor: "hsl(150 91% 60% / 0.6)"
-                }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <motion.div 
-                  className="text-3xl font-bold gradient-text"
-                  initial={{ scale: 0 }}
-                  animate={isInView ? { scale: 1 } : {}}
-                  transition={{ type: "spring", stiffness: 200, delay: 0.6 }}
-                >
-                  {projectCount}+
-                </motion.div>
-                <div className="text-sm text-muted-foreground mt-2">Projects Completed</div>
-              </motion.div>
-              <motion.div 
-                className="text-center p-4 rounded-lg bg-card border border-secondary/20 cursor-pointer"
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 0 25px hsl(120 91% 65% / 0.4)",
-                  borderColor: "hsl(120 91% 65% / 0.6)"
-                }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <motion.div 
-                  className="text-3xl font-bold gradient-text"
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={isInView ? { scale: 1, rotate: 0 } : {}}
-                  transition={{ type: "spring", stiffness: 200, delay: 0.8 }}
-                >
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-4 sm:pt-6">
+              <div className="text-center p-3 sm:p-4 rounded-lg bg-card border border-primary/20 hover:border-primary/50 transition-colors">
+                <div className="text-2xl sm:text-3xl font-bold gradient-text">
+                  {inView ? projectCount : 0}+
+                </div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Projects Completed</div>
+              </div>
+              <div className="text-center p-3 sm:p-4 rounded-lg bg-card border border-secondary/20 hover:border-secondary/50 transition-colors">
+                <div className="text-2xl sm:text-3xl font-bold gradient-text">
                   CS
-                </motion.div>
-                <div className="text-sm text-muted-foreground mt-2">Student</div>
-              </motion.div>
+                </div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Student</div>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
