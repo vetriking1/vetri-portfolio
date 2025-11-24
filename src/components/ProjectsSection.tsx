@@ -257,9 +257,9 @@ const ProjectCard = memo(({ project }: { project: Project }) => {
 
   return (
     <div className="group relative">
-      <div className="relative h-full p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors duration-200 overflow-hidden shadow-lg">
+      <div className="relative h-full p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors duration-200 shadow-lg">
         {/* Gradient Background */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-200`} />
+        <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-200 pointer-events-none`} />
 
         {/* Project Image */}
         <div
@@ -321,13 +321,13 @@ const ProjectCard = memo(({ project }: { project: Project }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 relative z-10">
           {project.liveUrl && (
             <a 
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all duration-200 cursor-pointer"
             >
               <ExternalLink className="w-3 h-3" />
               <span>View</span>
@@ -338,7 +338,7 @@ const ProjectCard = memo(({ project }: { project: Project }) => {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border border-border hover:border-primary transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border border-border hover:border-primary hover:bg-primary/10 hover:scale-105 transition-all duration-200 cursor-pointer"
             >
               <Github className="w-3 h-3" />
               <span>Code</span>

@@ -128,7 +128,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
               className="h-full bg-gradient-to-r from-primary via-secondary to-accent"
               initial={{ width: "0%" }}
               animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 1.3 }}
             />
           </div>
           

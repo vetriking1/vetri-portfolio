@@ -26,7 +26,9 @@ const HeroSection = () => {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [splineLoaded, setSplineLoaded] = useState(false);
   const [disableSpline, setDisableSpline] = useState(false);
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
   const viewerRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLElement>(null);
   const { width } = useViewportSize();
   const { isLagging } = usePerformanceMonitor(25); // Disable if FPS < 25
   
@@ -40,6 +42,36 @@ const HeroSection = () => {
 
   // Determine if mobile viewport (check both viewport and initial window width)
   const isMobile = width < 768 || (typeof window !== 'undefined' && window.innerWidth < 768);
+
+  // Intersection Observer to detect when hero section is visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsHeroVisible(entry.isIntersecting);
+          if (!entry.isIntersecting) {
+            console.log('Hero section left viewport, removing Spline from DOM');
+          } else {
+            console.log('Hero section visible, loading Spline');
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Trigger when 10% of the section is visible
+        rootMargin: '0px'
+      }
+    );
+
+    if (heroSectionRef.current) {
+      observer.observe(heroSectionRef.current);
+    }
+
+    return () => {
+      if (heroSectionRef.current) {
+        observer.unobserve(heroSectionRef.current);
+      }
+    };
+  }, []);
 
   // Disable Spline if performance is lagging on mobile
   useEffect(() => {
@@ -139,9 +171,9 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section ref={heroSectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Spline 3D Background - Dark Mode */}
-      {theme === "dark" && !disableSpline && (
+      {theme === "dark" && !disableSpline && isHeroVisible && (
         <Suspense fallback={
           <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 animate-pulse" />
         }>
@@ -156,15 +188,15 @@ const HeroSection = () => {
       )}
 
       {/* Spline 3D Background - Light Mode */}
-      {theme === "light" && !disableSpline && (
+      {theme === "light" && !disableSpline && isHeroVisible && (
         <div 
           ref={viewerRef}
           className={`absolute inset-0 z-0 ${isMobile ? 'scale-[1.5] opacity-30' : 'scale-110 opacity-60'}`}
         />
       )}
 
-      {/* Fallback gradient background when Spline is disabled */}
-      {disableSpline && (
+      {/* Fallback gradient background when Spline is disabled or not visible */}
+      {(disableSpline || !isHeroVisible) && (
         <>
           <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 animate-pulse" />
           <div className="absolute inset-0 z-0">

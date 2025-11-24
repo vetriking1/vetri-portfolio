@@ -94,11 +94,6 @@ const ContactSection = () => {
               </button>
             </div>
 
-            {/* Phone Number Display */}
-            <div className="p-6 rounded-xl bg-card border border-border text-center">
-              <p className="text-sm text-muted-foreground mb-2">Direct Contact</p>
-              <p className="text-2xl font-bold gradient-text-full">{phoneNumber}</p>
-            </div>
 
             {/* Availability Card */}
             <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 border border-primary/20">
