@@ -4,6 +4,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import Navigation from "@/components/Navigation";
 import CustomCursor from "@/components/CustomCursor";
 import FloatingElements from "@/components/FloatingElements";
+import StarParticles from "@/components/StarParticles";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import SkillsSection from "@/components/SkillsSection";
@@ -41,6 +42,7 @@ const Index = () => {
           <Navigation />
           <ThemeToggle />
           <CustomCursor />
+          <StarParticles />
           <FloatingElements />
           
           <main className="relative">
