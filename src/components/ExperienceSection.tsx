@@ -1,5 +1,9 @@
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Briefcase, Calendar } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const experiences = [
   {
@@ -67,28 +71,91 @@ const experiences = [
 // Memoized experience card component
 const ExperienceCard = memo(({ exp, index }: { exp: typeof experiences[0]; index: number }) => {
   const isLeft = index % 2 === 0;
-  
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!cardRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const card = cardRef.current;
+      const dot = card?.querySelector(".timeline-dot");
+      const branch = card?.querySelector(".branch-line");
+      const content = card?.querySelector(".experience-content");
+
+      // Animate timeline dot
+      gsap.from(dot, {
+        scrollTrigger: {
+          trigger: card,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        scale: 0,
+        opacity: 0,
+        duration: 0.5,
+        ease: "back.out(2)",
+      });
+
+      // Animate branch line
+      if (branch) {
+        gsap.from(branch, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+          scaleX: 0,
+          transformOrigin: isLeft ? "right center" : "left center",
+          duration: 0.6,
+          delay: 0.3,
+          ease: "power2.out",
+        });
+      }
+
+      // Animate content card
+      gsap.from(content, {
+        scrollTrigger: {
+          trigger: card,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.4,
+        ease: "power3.out",
+      });
+    }, cardRef);
+
+    return () => ctx.revert();
+  }, [isLeft]);
+
   return (
-    <div className="relative">
+    <div ref={cardRef} className="relative experience-item">
       {/* Branch Line - Desktop Only */}
-      <div className={`hidden md:block absolute top-8 h-0.5 bg-gradient-to-r ${
-        isLeft
-          ? "left-0 right-1/2 from-transparent via-primary/50 to-primary"
-          : "left-1/2 right-0 from-primary to-transparent via-primary/50"
-      }`} />
+      <div
+        className={`branch-line hidden md:block absolute top-8 h-0.5 bg-gradient-to-r ${
+          isLeft
+            ? "left-0 right-1/2 from-transparent via-primary/50 to-primary"
+            : "left-1/2 right-0 from-primary to-transparent via-primary/50"
+        }`}
+      />
 
       <div className={`flex ${isLeft ? "md:justify-start" : "md:justify-end"}`}>
         {/* Timeline Dot */}
-        <div className="absolute left-8 md:left-1/2 top-6 transform md:-translate-x-1/2 z-20">
-          <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${exp.color} ring-4 ring-background shadow-lg`} />
+        <div className="timeline-dot absolute left-8 md:left-1/2 top-6 transform md:-translate-x-1/2 z-20">
+          <div
+            className={`w-6 h-6 rounded-full bg-gradient-to-br ${exp.color} ring-4 ring-background shadow-lg`}
+          />
         </div>
 
         {/* Content Card */}
         <div className={`w-full md:w-[calc(50%-3rem)] ml-16 sm:ml-20 md:ml-0`}>
-          <div className="p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors duration-200 shadow-lg">
+          <div className="experience-content p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors duration-200 shadow-lg">
             {/* Icon */}
             <div className="mb-3 sm:mb-4">
-              <div className={`inline-flex p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-gradient-to-br ${exp.color} shadow-lg`}>
+              <div
+                className={`inline-flex p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-gradient-to-br ${exp.color} shadow-lg`}
+              >
                 <Briefcase className="w-5 h-5 sm:w-6 sm:h-6 text-background" />
               </div>
             </div>
@@ -114,11 +181,10 @@ const ExperienceCard = memo(({ exp, index }: { exp: typeof experiences[0]; index
             {/* Achievements */}
             <ul className="space-y-2 sm:space-y-3">
               {exp.achievements.map((achievement, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-2 sm:gap-3"
-                >
-                  <span className="text-primary mt-0.5 sm:mt-1 text-base sm:text-lg">▹</span>
+                <li key={i} className="flex items-start gap-2 sm:gap-3">
+                  <span className="text-primary mt-0.5 sm:mt-1 text-base sm:text-lg">
+                    ▹
+                  </span>
                   <span className="text-xs sm:text-sm text-muted-foreground leading-snug">
                     {achievement}
                   </span>
@@ -135,13 +201,52 @@ const ExperienceCard = memo(({ exp, index }: { exp: typeof experiences[0]; index
 ExperienceCard.displayName = "ExperienceCard";
 
 const ExperienceSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current || !headerRef.current || !timelineRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Animate header
+      gsap.from(headerRef.current, {
+        scrollTrigger: {
+          trigger: headerRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: "power3.out",
+      });
+
+      // Animate timeline line
+      gsap.from(timelineRef.current, {
+        scrollTrigger: {
+          trigger: timelineRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        scaleY: 0,
+        transformOrigin: "top center",
+        duration: 1.2,
+        ease: "power2.inOut",
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="experience"
       className="relative min-h-screen flex items-center justify-center py-12 sm:py-20 px-3 sm:px-4 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto w-full relative z-10 px-2 sm:px-0">
-        <div className="text-center mb-12 sm:mb-16 md:mb-20">
+        <div ref={headerRef} className="text-center mb-12 sm:mb-16 md:mb-20">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             <span className="gradient-text-full">My Experience</span>
           </h2>
@@ -153,7 +258,10 @@ const ExperienceSection = () => {
 
         <div className="relative">
           {/* Timeline Line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent transform md:-translate-x-1/2" />
+          <div
+            ref={timelineRef}
+            className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent transform md:-translate-x-1/2"
+          />
 
           <div className="space-y-16 md:space-y-24">
             {experiences.map((exp, index) => (

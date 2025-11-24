@@ -1,4 +1,4 @@
-import { useRef, memo, useCallback } from "react";
+import { useRef, memo, useCallback, useEffect, useState } from "react";
 import { Mail, Github, Linkedin, Phone, MessageCircle, XIcon, Code2, Trophy } from "lucide-react";
 
 const phoneNumber = "+919600718540";
@@ -15,6 +15,28 @@ const socialLinks = [
 
 const ContactSection = () => {
   const ref = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
 
   const handleCall = useCallback(() => {
     window.location.href = `tel:${phoneNumber}`;
@@ -31,7 +53,9 @@ const ContactSection = () => {
       className="relative min-h-screen flex items-center justify-center py-12 sm:py-20 px-3 sm:px-4"
     >
       <div className="max-w-7xl mx-auto w-full px-2 sm:px-0">
-        <div className="text-center mb-12 sm:mb-16">
+        <div className={`text-center mb-12 sm:mb-16 transition-all duration-1000 ease-out ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             <span className="gradient-text-full">Let's Connect</span>
           </h2>
@@ -43,11 +67,13 @@ const ContactSection = () => {
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Contact Actions */}
-          <div className="space-y-6">
+          <div className={`space-y-6 transition-all duration-1000 ease-out delay-150 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}>
             {/* Call Me Button */}
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 border border-primary/20">
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 border border-primary/20 animate-float">
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-float-slow">
                   <Phone className="w-8 h-8 text-white" />
                 </div>
                 <div>
@@ -70,9 +96,9 @@ const ContactSection = () => {
             </div>
 
             {/* WhatsApp Button */}
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-tertiary/10 via-primary/10 to-secondary/10 border border-tertiary/20">
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-tertiary/10 via-primary/10 to-secondary/10 border border-tertiary/20 animate-float-delayed">
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-tertiary to-primary flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-tertiary to-primary flex items-center justify-center animate-float-slow">
                   <MessageCircle className="w-8 h-8 text-white" />
                 </div>
                 <div>
@@ -96,7 +122,7 @@ const ContactSection = () => {
 
 
             {/* Availability Card */}
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 border border-primary/20">
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 border border-primary/20 animate-float">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-3 h-3 rounded-full bg-tertiary animate-pulse"></div>
                 <span className="text-lg font-semibold">Available for Work</span>
@@ -109,8 +135,10 @@ const ContactSection = () => {
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-8">
-            <div className="p-8 rounded-2xl bg-card border border-border">
+          <div className={`space-y-8 transition-all duration-1000 ease-out delay-300 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}>
+            <div className="p-8 rounded-2xl bg-card border border-border animate-float-delayed">
               <h3 className="text-2xl font-bold mb-6 gradient-text">
                 Get in Touch
               </h3>
@@ -131,7 +159,7 @@ const ContactSection = () => {
                       rel="noopener noreferrer"
                       className="flex items-center gap-4 p-4 rounded-lg bg-muted hover:bg-primary/10 border border-border hover:border-primary transition-colors duration-200"
                     >
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-float-slow">
                         <Icon className="w-6 h-6 text-background" />
                       </div>
                       <span className="font-medium">
