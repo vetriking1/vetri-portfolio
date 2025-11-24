@@ -2,11 +2,14 @@ import { useRef, useEffect, useState } from "react";
 import profileImage from "@/assets/profile.png";
 import { useTypewriter } from "@/hooks/use-typewriter";
 import { useCounter } from "@/hooks/use-counter";
+import { gsap } from "gsap";
 
 const AboutSection = () => {
   const ref = useRef(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
+  const [imageInView, setImageInView] = useState(false);
   
   const fullText = `Hello! I'm Vetri Selvan M, a Computer Science student with a deep passion for Artificial Intelligence, Software Development, and Research. I love exploring technology and turning complex ideas into beautifully crafted, functional systems.
 
@@ -37,6 +40,57 @@ Outside of tech, I enjoy anime, gaming, human psychology, and exploring how thin
     };
   }, []);
 
+  // Image reveal animation with GSAP
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !imageInView) {
+          setImageInView(true);
+          
+          // GSAP animation for image reveal
+          const tl = gsap.timeline();
+          
+          tl.fromTo(
+            imageRef.current,
+            {
+              opacity: 0,
+              scale: 0.95,
+              y: 30,
+            },
+            {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 1.2,
+              ease: "power3.out",
+            }
+          );
+
+          // Add floating animation
+          gsap.to(imageRef.current, {
+            y: -10,
+            duration: 2.5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: 1.2,
+          });
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (imageRef.current) {
+      observer.observe(imageRef.current);
+    }
+
+    return () => {
+      if (imageRef.current) {
+        observer.unobserve(imageRef.current);
+      }
+    };
+  }, [imageInView]);
+
   const { displayedText } = useTypewriter({
     text: inView ? fullText : '',
     speed: 20,
@@ -66,18 +120,24 @@ Outside of tech, I enjoy anime, gaming, human psychology, and exploring how thin
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="relative">
-            <div className="relative w-full max-w-md mx-auto">
-              {/* Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl blur-3xl opacity-30"></div>
+            <div 
+              ref={imageRef}
+              className="relative w-full max-w-md mx-auto opacity-0"
+            >
+              {/* Animated Glow Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl blur-3xl opacity-30 animate-pulse"></div>
               
-              {/* Image Container */}
-              <div className="relative rounded-2xl overflow-hidden border-2 border-primary/20">
+              {/* Image Container with Hover Effects */}
+              <div className="relative rounded-2xl overflow-hidden border-2 border-primary/20 transition-all duration-500 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/20 group">
                 <img
                   src={profileImage}
                   alt="Profile"
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
+                
+                {/* Subtle overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
             </div>
           </div>

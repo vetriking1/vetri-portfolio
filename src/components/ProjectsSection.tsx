@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useCallback, memo } from "react";
+import { useRef, useState, useMemo, useCallback, memo, useEffect } from "react";
 import { ExternalLink, Github } from "lucide-react";
 import { useLazyImage } from "@/hooks/use-lazy-image";
 
@@ -252,11 +252,37 @@ const projects: Project[] = [
 const categories: Category[] = ["All", "AI & CV", "Full-Stack", "AI & NLP", "ML & Data Science", "Games", "Systems", "Specialized"];
 
 // Memoized project card component with lazy image loading
-const ProjectCard = memo(({ project }: { project: Project }) => {
+const ProjectCard = memo(({ project, index }: { project: Project; index: number }) => {
   const { imgRef, imageSrc, isLoaded } = useLazyImage(project.image || "");
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="group relative">
+    <div 
+      ref={cardRef}
+      className={`group relative transition-all duration-500 ease-out ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+      }`}
+      style={{ transitionDelay: `${index * 50}ms` }}
+    >
       <div className="relative h-full p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors duration-200 shadow-lg">
         {/* Gradient Background */}
         <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-200 pointer-events-none`} />
@@ -355,6 +381,28 @@ ProjectCard.displayName = "ProjectCard";
 const ProjectsSection = () => {
   const ref = useRef(null);
   const [selectedCategory, setSelectedCategory] = useState<Category>("All");
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsHeaderVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
 
   const filteredProjects = useMemo(() => 
     selectedCategory === "All" 
@@ -374,7 +422,9 @@ const ProjectsSection = () => {
       className="relative min-h-screen flex items-center justify-center py-12 sm:py-20 px-3 sm:px-4"
     >
       <div className="max-w-7xl mx-auto w-full px-2 sm:px-0">
-        <div className="text-center mb-8 sm:mb-12">
+        <div className={`text-center mb-8 sm:mb-12 transition-all duration-700 ease-out ${
+          isHeaderVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             <span className="gradient-text-full">Featured Projects</span>
           </h2>
@@ -385,19 +435,21 @@ const ProjectsSection = () => {
         </div>
 
         {/* Category Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12 px-2">
+        <div className={`flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12 px-4 transition-all duration-700 ease-out delay-100 ${
+          isHeaderVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}>
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => handleCategoryChange(category)}
-              className={`px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 ${
+              className={`px-4 sm:px-4 md:px-5 py-2.5 sm:py-2.5 rounded-full text-sm sm:text-sm font-medium transition-all duration-200 whitespace-nowrap touch-manipulation ${
                 selectedCategory === category
-                  ? "bg-gradient-to-r from-primary via-secondary to-accent text-white"
-                  : "bg-card border border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                  ? "bg-gradient-to-r from-primary via-secondary to-accent text-white shadow-lg scale-105"
+                  : "bg-card border-2 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground active:scale-95"
               }`}
             >
               {category}
-              <span className="ml-1 sm:ml-2 text-xs opacity-70">
+              <span className="ml-2 text-xs opacity-70">
                 ({category === "All" ? projects.length : projects.filter(p => p.categories.includes(category)).length})
               </span>
             </button>
@@ -406,8 +458,8 @@ const ProjectsSection = () => {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project) => (
-            <ProjectCard key={project.title} project={project} />
+          {filteredProjects.map((project, index) => (
+            <ProjectCard key={project.title} project={project} index={index} />
           ))}
         </div>
 
