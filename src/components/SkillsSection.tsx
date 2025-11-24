@@ -1,3 +1,6 @@
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Code2,
   Brain,
@@ -5,6 +8,8 @@ import {
   Terminal,
   Wrench,
 } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface SkillCategory {
   icon: any;
@@ -84,13 +89,78 @@ const skillCategories: SkillCategory[] = [
 ];
 
 const SkillsSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const categoriesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current || !headerRef.current || !categoriesRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Animate header
+      gsap.from(headerRef.current, {
+        scrollTrigger: {
+          trigger: headerRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: "power3.out",
+      });
+
+      // Animate each category with stagger
+      const categories = categoriesRef.current?.querySelectorAll(".skill-category");
+      categories?.forEach((category) => {
+        const header = category.querySelector(".category-header");
+        const skills = category.querySelectorAll(".skill-card");
+
+        // Animate category header
+        gsap.from(header, {
+          scrollTrigger: {
+            trigger: category,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+          opacity: 0,
+          x: -30,
+          duration: 0.6,
+          ease: "power2.out",
+        });
+
+        // Stagger animate skill cards
+        gsap.from(skills, {
+          scrollTrigger: {
+            trigger: category,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+          opacity: 0,
+          y: 20,
+          scale: 0.9,
+          duration: 0.5,
+          stagger: {
+            amount: 0.6,
+            from: "start",
+            ease: "power2.out",
+          },
+          ease: "back.out(1.2)",
+        });
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="skills"
       className="relative min-h-screen flex items-center justify-center py-12 sm:py-20 px-3 sm:px-4"
     >
       <div className="max-w-7xl mx-auto w-full px-2 sm:px-0">
-        <div className="text-center mb-12 sm:mb-16">
+        <div ref={headerRef} className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             <span className="gradient-text-full">Skills & Expertise</span>
           </h2>
@@ -100,13 +170,13 @@ const SkillsSection = () => {
           </p>
         </div>
 
-        <div className="space-y-8">
+        <div ref={categoriesRef} className="space-y-8">
           {skillCategories.map((category, categoryIndex) => {
             const Icon = category.icon;
             return (
-              <div key={categoryIndex}>
+              <div key={categoryIndex} className="skill-category">
                 {/* Category Header */}
-                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                <div className="category-header flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                   <div
                     className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br ${category.color} p-2 sm:p-2.5 flex items-center justify-center shadow-lg`}
                   >
@@ -122,7 +192,7 @@ const SkillsSection = () => {
                   {category.skills.map((skill, skillIndex) => (
                     <div
                       key={skillIndex}
-                      className="px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 rounded-md sm:rounded-lg bg-card border border-border hover:border-primary/50 transition-colors duration-200 shadow-sm"
+                      className="skill-card px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 rounded-md sm:rounded-lg bg-card border border-border hover:border-primary/50 transition-colors duration-200 shadow-sm"
                     >
                       <p className="text-xs sm:text-sm font-medium text-foreground text-center leading-tight">
                         {skill}
